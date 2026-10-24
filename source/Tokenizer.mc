@@ -88,6 +88,7 @@ module Garlic {
             if (c == ")") return new Token(TokenType.RPAREN, ")", start);
             if (c == ",") return new Token(TokenType.COMMA, ",", start);
             if (c == "=") return new Token(TokenType.EQUALS, "=", start);
+
             if (c == "<") {
                 if (peek("=")) {
                     self.index += 1;
@@ -95,6 +96,7 @@ module Garlic {
                 }
                 return new Token(TokenType.LESS, "<", start);
             }
+
             if (c == ">") {
                 if (peek("=")) {
                     self.index += 1;
@@ -102,6 +104,7 @@ module Garlic {
                 }
                 return new Token(TokenType.GREATER, ">", start);
             }
+
             if (c == "{") return new Token(TokenType.LBRACE, "{", start);
             if (c == "}") return new Token(TokenType.RBRACE, "}", start);
 
@@ -140,6 +143,27 @@ module Garlic {
 
             if (!sawDigit) {
                 throw new ParserError("Expected a number", start);
+            }
+
+            // Desmos accepts scientific notation such as 1e6 and 2.5e-3.
+            if (self.index < self.input.length() &&
+                (self.input[self.index] == "e" || self.input[self.index] == "E")) {
+                var exponentStart = self.index;
+                self.index += 1;
+
+                if (self.index < self.input.length() &&
+                    (self.input[self.index] == "+" || self.input[self.index] == "-")) {
+                    self.index += 1;
+                }
+
+                var exponentDigits = self.index;
+                while (self.index < self.input.length() && isDigit(self.input[self.index])) {
+                    self.index += 1;
+                }
+
+                if (self.index == exponentDigits) {
+                    throw new ParserError("Expected digits after exponent", exponentStart);
+                }
             }
 
             return new Token(TokenType.NUMBER, self.input.substring(start, self.index), start);
