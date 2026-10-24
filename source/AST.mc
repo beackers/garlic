@@ -5,7 +5,11 @@ module Garlic {
         CONSTANT,
         UNARY,
         BINARY,
-        FUNCTION_CALL
+        FUNCTION_CALL,
+        RELATION,
+        LOGICAL,
+        FUNCTION_DEFINITION,
+        STATEMENT
     }
 
     enum UnaryOperator {
@@ -19,6 +23,19 @@ module Garlic {
         MULTIPLY,
         DIVIDE,
         POWER
+    }
+
+    enum RelationOperator {
+        EQUALS,
+        LESS,
+        GREATER,
+        LESS_EQUAL,
+        GREATER_EQUAL
+    }
+
+    enum LogicalOperator {
+        AND,
+        OR
     }
 
     class Node {
@@ -88,6 +105,60 @@ module Garlic {
             Node.initialize(NodeType.FUNCTION_CALL);
             self.name = name;
             self.arguments = arguments;
+        }
+    }
+
+    class RelationNode extends Node {
+        var operator;
+        var left;
+        var right;
+
+        function initialize(operator, left, right) {
+            Node.initialize(NodeType.RELATION);
+            self.operator = operator;
+            self.left = left;
+            self.right = right;
+        }
+    }
+
+    class LogicalNode extends Node {
+        var operator;
+        var left;
+        var right;
+
+        function initialize(operator, left, right) {
+            Node.initialize(NodeType.LOGICAL);
+            self.operator = operator;
+            self.left = left;
+            self.right = right;
+        }
+    }
+
+    class FunctionDefinitionNode extends Node {
+        var name;
+        var parameters;
+        var body;
+
+        function initialize(name, parameters, body) {
+            Node.initialize(NodeType.FUNCTION_DEFINITION);
+            self.name = name;
+            self.parameters = parameters;
+            self.body = body;
+        }
+    }
+
+    // A statement is the unit represented by one expression line.
+    // It may contain an ordinary expression, relation, or function definition.
+    // Restrictions are kept on the statement so graph/display semantics do not
+    // leak into ordinary arithmetic expressions.
+    class StatementNode extends Node {
+        var expression;
+        var restrictions;
+
+        function initialize(expression, restrictions) {
+            Node.initialize(NodeType.STATEMENT);
+            self.expression = expression;
+            self.restrictions = restrictions;
         }
     }
 
