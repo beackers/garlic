@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <drawable-list id="LauncherIcon" background="Graphics.COLOR_BLACK">
+        <shape type="circle" x="8" y="8" width="32" height="32" color="Graphics.COLOR_WHITE" />
+    </drawable-list>
+</resources>
