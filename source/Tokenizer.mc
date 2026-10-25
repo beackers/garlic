@@ -79,15 +79,35 @@ module Garlic {
 
             self.index += 1;
 
-            if (c == "+") return new Token(TokenType.PLUS, "+", start);
-            if (c == "-") return new Token(TokenType.MINUS, "-", start);
-            if (c == "*") return new Token(TokenType.MULTIPLY, "*", start);
-            if (c == "/") return new Token(TokenType.DIVIDE, "/", start);
-            if (c == "^") return new Token(TokenType.CARET, "^", start);
-            if (c == "(") return new Token(TokenType.LPAREN, "(", start);
-            if (c == ")") return new Token(TokenType.RPAREN, ")", start);
-            if (c == ",") return new Token(TokenType.COMMA, ",", start);
-            if (c == "=") return new Token(TokenType.EQUALS, "=", start);
+            if (c == "+") {
+
+                return new Token(TokenType.PLUS, "+", start);
+
+            }
+            if (c == "-") {
+                return new Token(TokenType.MINUS, "-", start);
+            }
+            if (c == "*") {
+                return new Token(TokenType.MULTIPLY, "*", start);
+            }
+            if (c == "/") {
+                return new Token(TokenType.DIVIDE, "/", start);
+            }
+            if (c == "^") {
+                return new Token(TokenType.CARET, "^", start);
+            }
+            if (c == "(") {
+                return new Token(TokenType.LPAREN, "(", start);
+            }
+            if (c == ")") {
+                return new Token(TokenType.RPAREN, ")", start);
+            }
+            if (c == ",") {
+                return new Token(TokenType.COMMA, ",", start);
+            }
+            if (c == "=") {
+                return new Token(TokenType.EQUALS, "=", start);
+            }
 
             if (c == "<") {
                 if (peek("=")) {
