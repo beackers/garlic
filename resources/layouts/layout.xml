@@ -24,7 +24,7 @@
         <label id="CursorLabel" x="center" y="84" text="_"
             font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER"
             color="Graphics.COLOR_WHITE" />
-        <label id="ModeLabel" x="center" y="105" text="Numbers • 1/5"
+        <label id="ModeLabel" x="center" y="105" text="Numbers - 1/5"
             font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER"
             color="Graphics.COLOR_LT_GRAY" />
 
@@ -63,7 +63,7 @@
         <label x="217" y="315" text="y" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="269" y="315" text="π" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
 
-        <label id="PageHint" x="center" y="355" text="← 1/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label id="PageHint" x="center" y="355" text="< 1/5 >" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
     </layout>
 
     <!-- The remaining layouts intentionally share the editor header and key
@@ -72,51 +72,51 @@
         <label id="HistoryLabel" x="center" y="18" text="2x + 1 = 7" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_DK_GRAY" />
         <label id="ExpressionLabel" x="center" y="50" text="2x + 1" font="Graphics.FONT_LARGE" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label id="CursorLabel" x="center" y="84" text="_" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <label id="ModeLabel" x="center" y="105" text="Letters • 2/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label id="ModeLabel" x="center" y="105" text="Letters - 2/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
         <label x="center" y="145" text="ABC   DEF   GHI" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="187" text="JKL   MNO   PQRS" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="229" text="TUV   WXYZ   _" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="271" text="x     y     n     f" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="313" text="g     h     t     a" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <label id="PageHint" x="center" y="355" text="← 2/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label id="PageHint" x="center" y="355" text="< 2/5 >" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
     </layout>
 
     <layout id="OperatorsLayout">
         <label id="HistoryLabel" x="center" y="18" text="2x + 1 = 7" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_DK_GRAY" />
         <label id="ExpressionLabel" x="center" y="50" text="2x + 1" font="Graphics.FONT_LARGE" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label id="CursorLabel" x="center" y="84" text="_" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <label id="ModeLabel" x="center" y="105" text="Operators • 3/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
-        <label x="center" y="145" text="+   −   ×   ÷   ^" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <label x="center" y="187" text="=   &lt;   &gt;   ≤   ≥" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="ModeLabel" x="center" y="105" text="Operators - 3/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label x="center" y="145" text="+   -   *   /   ^" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="187" text="=   &lt;   &gt;   &lt;=   &gt;=" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="229" text="(   )   {   }   ," font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="271" text="%   !   and   or" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="313" text="     :     " font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <label id="PageHint" x="center" y="355" text="← 3/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label id="PageHint" x="center" y="355" text="< 3/5 >" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
     </layout>
 
     <layout id="FunctionsLayout">
         <label id="HistoryLabel" x="center" y="18" text="2x + 1 = 7" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_DK_GRAY" />
         <label id="ExpressionLabel" x="center" y="50" text="2x + 1" font="Graphics.FONT_LARGE" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label id="CursorLabel" x="center" y="84" text="_" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <label id="ModeLabel" x="center" y="105" text="Functions • 4/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label id="ModeLabel" x="center" y="105" text="Functions - 4/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
         <label x="center" y="145" text="sin   cos   tan" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="187" text="asin  acos  atan" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="229" text="ln    log   exp" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="271" text="sqrt  abs   floor" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="313" text="ceil  round min max" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <label id="PageHint" x="center" y="355" text="← 4/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label id="PageHint" x="center" y="355" text="< 4/5 >" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
     </layout>
 
     <layout id="SpecialLayout">
         <label id="HistoryLabel" x="center" y="18" text="2x + 1 = 7" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_DK_GRAY" />
         <label id="ExpressionLabel" x="center" y="50" text="2x + 1" font="Graphics.FONT_LARGE" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label id="CursorLabel" x="center" y="84" text="_" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <label id="ModeLabel" x="center" y="105" text="Special • 5/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
-        <label x="center" y="145" text="π     e     τ" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <label x="center" y="187" text="∞     °     ;" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="ModeLabel" x="center" y="105" text="Special - 5/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label x="center" y="145" text="pi     e     tau" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="187" text="inf     deg     ;" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="229" text="[     ]     {" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="271" text="}     '     &quot;" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <label x="center" y="313" text="constants / syntax" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
-        <label id="PageHint" x="center" y="355" text="← 5/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label id="PageHint" x="center" y="355" text="< 5/5 >" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
     </layout>
 </resources>
