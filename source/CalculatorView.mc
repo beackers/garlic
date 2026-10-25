@@ -209,11 +209,17 @@ module Garlic {
             if (navigation.keyboardPage == KeyboardPage.NUMBERS) {
                 if (y >= 128 && y < 166 && x >= 36 && x < 294) {
                     var col = ((x - 36) / 52).toNumber();
-                    if (col == 0) clearExpression();
-                    else if (col == 1) backspace();
-                    else if (col == 2) insert("(");
-                    else if (col == 3) insert(")");
-                    else if (col == 4) insert("=");
+                    if (col == 0) {
+                        clearExpression();
+                    } else if (col == 1) {
+                        backspace();
+                    } else if (col == 2) {
+                        insert("(");
+                    } else if (col == 3) {
+                        insert(")");
+                    } else if (col == 4) {
+                        insert("=");
+                    }
                     return;
                 }
 
@@ -250,7 +256,9 @@ module Garlic {
                 col = ((x - 36) / 86).toNumber();
                 var index = row * 3 + col;
                 if (row >= 0 && row < 3 && col >= 0 && col < 3 &&
-                    index < keys.size()) return keys[index];
+                    index < keys.size()) {
+                    return keys[index];
+                }
                 return null;
             }
 
