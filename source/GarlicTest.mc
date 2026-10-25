@@ -71,66 +71,66 @@ module Garlic {
         function run() {
             // Binary operators and precedence.
             assertTree("2 + 3",
-                statement(binary(BinaryOperator.ADD, number(2), number(3))));
+                statement(binary(ADD, number(2), number(3))));
 
             assertTree("5 - 2",
-                statement(binary(BinaryOperator.SUBTRACT, number(5), number(2))));
+                statement(binary(SUBTRACT, number(5), number(2))));
 
             assertTree("2 * 3",
-                statement(binary(BinaryOperator.MULTIPLY, number(2), number(3))));
+                statement(binary(MULTIPLY, number(2), number(3))));
 
             assertTree("8 / 4",
-                statement(binary(BinaryOperator.DIVIDE, number(8), number(4))));
+                statement(binary(DIVIDE, number(8), number(4))));
 
             assertTree("x^2",
-                statement(binary(BinaryOperator.POWER, variable("x"), number(2))));
+                statement(binary(POWER, variable("x"), number(2))));
 
             // Addition/subtraction must be lower precedence than multiplication.
             assertTree("2 + 3 * x",
-                statement(binary(BinaryOperator.ADD,
+                statement(binary(ADD,
                     number(2),
-                    binary(BinaryOperator.MULTIPLY, number(3), variable("x")))));
+                    binary(MULTIPLY, number(3), variable("x")))));
 
             // Multiplication must be lower precedence than powers.
             assertTree("2 * x^2",
-                statement(binary(BinaryOperator.MULTIPLY,
+                statement(binary(MULTIPLY,
                     number(2),
-                    binary(BinaryOperator.POWER, variable("x"), number(2)))));
+                    binary(POWER, variable("x"), number(2)))));
 
             // Powers must be right-associative.
             assertTree("2^3^2",
-                statement(binary(BinaryOperator.POWER,
+                statement(binary(POWER,
                     number(2),
-                    binary(BinaryOperator.POWER, number(3), number(2)))));
+                    binary(POWER, number(3), number(2)))));
 
             // Unary minus must sit below exponentiation.
             assertTree("-x^2",
-                statement(unary(UnaryOperator.NEGATE,
-                    binary(BinaryOperator.POWER, variable("x"), number(2)))));
+                statement(unary(NEGATE,
+                    binary(POWER, variable("x"), number(2)))));
 
             assertTree("(-x)^2",
-                statement(binary(BinaryOperator.POWER,
-                    unary(UnaryOperator.NEGATE, variable("x")),
+                statement(binary(POWER,
+                    unary(NEGATE, variable("x")),
                     number(2))));
 
             assertTree("+x",
-                statement(unary(UnaryOperator.POSITIVE, variable("x"))));
+                statement(unary(POSITIVE, variable("x"))));
 
             // Implicit multiplication must be explicit in the AST.
             assertTree("2x^2",
-                statement(binary(BinaryOperator.MULTIPLY,
+                statement(binary(MULTIPLY,
                     number(2),
-                    binary(BinaryOperator.POWER, variable("x"), number(2)))));
+                    binary(POWER, variable("x"), number(2)))));
 
             assertTree("2(x + 1)",
-                statement(binary(BinaryOperator.MULTIPLY,
+                statement(binary(MULTIPLY,
                     number(2),
-                    binary(BinaryOperator.ADD, variable("x"), number(1)))));
+                    binary(ADD, variable("x"), number(1)))));
 
             assertTree("(x + 1)(x - 1)",
-                statement(binary(BinaryOperator.MULTIPLY,
-                    binary(BinaryOperator.ADD, variable("x"), number(1)),
-                    binary(BinaryOperator.SUBTRACT, variable("x"), number(1)))));
+                statement(binary(MULTIPLY,
+                    binary(ADD, variable("x"), number(1)),
+                    binary(SUBTRACT, variable("x"), number(1)))));
 
             // Function calls must bind as primary expressions.
             assertTree("sin(x)",
@@ -138,19 +138,19 @@ module Garlic {
 
             assertTree("sqrt(x + 1)",
                 statement(call("sqrt", [
-                    binary(BinaryOperator.ADD, variable("x"), number(1))
+                    binary(ADD, variable("x"), number(1))
                 ])));
 
             assertTree("f(x, y)",
                 statement(call("f", [variable("x"), variable("y")])));
 
             assertTree("2sin(x)",
-                statement(binary(BinaryOperator.MULTIPLY,
+                statement(binary(MULTIPLY,
                     number(2),
                     call("sin", [variable("x")]))));
 
             assertTree("sin(x)^2",
-                statement(binary(BinaryOperator.POWER,
+                statement(binary(POWER,
                     call("sin", [variable("x")]),
                     number(2))));
 
@@ -165,75 +165,75 @@ module Garlic {
                 statement(constant("tau")));
 
             assertTree("2pi",
-                statement(binary(BinaryOperator.MULTIPLY,
+                statement(binary(MULTIPLY,
                     number(2),
                     constant("pi"))));
 
             // Relations.
             assertTree("x = 3",
-                statement(relation(RelationOperator.EQUALS,
+                statement(relation(EQUALS,
                     variable("x"), number(3))));
 
             assertTree("x < 3",
-                statement(relation(RelationOperator.LESS,
+                statement(relation(LESS,
                     variable("x"), number(3))));
 
             assertTree("x <= 3",
-                statement(relation(RelationOperator.LESS_EQUAL,
+                statement(relation(LESS_EQUAL,
                     variable("x"), number(3))));
 
             assertTree("x > 3",
-                statement(relation(RelationOperator.GREATER,
+                statement(relation(GREATER,
                     variable("x"), number(3))));
 
             assertTree("x >= 3",
-                statement(relation(RelationOperator.GREATER_EQUAL,
+                statement(relation(GREATER_EQUAL,
                     variable("x"), number(3))));
 
             // Chained inequalities become adjacent comparisons joined by AND.
             assertTree("0 < x < 3",
-                statement(logical(LogicalOperator.AND,
-                    relation(RelationOperator.LESS, number(0), variable("x")),
-                    relation(RelationOperator.LESS, variable("x"), number(3)))));
+                statement(logical(AND,
+                    relation(LESS, number(0), variable("x")),
+                    relation(LESS, variable("x"), number(3)))));
 
             // Logical operators.
             assertTree("x > 0 and x < 10",
-                statement(logical(LogicalOperator.AND,
-                    relation(RelationOperator.GREATER, variable("x"), number(0)),
-                    relation(RelationOperator.LESS, variable("x"), number(10)))));
+                statement(logical(AND,
+                    relation(GREATER, variable("x"), number(0)),
+                    relation(LESS, variable("x"), number(10)))));
 
             assertTree("x < 0 or x > 1",
-                statement(logical(LogicalOperator.OR,
-                    relation(RelationOperator.LESS, variable("x"), number(0)),
-                    relation(RelationOperator.GREATER, variable("x"), number(1)))));
+                statement(logical(OR,
+                    relation(LESS, variable("x"), number(0)),
+                    relation(GREATER, variable("x"), number(1)))));
 
             // Restrictions belong to the statement, not to the arithmetic AST.
             assertTree("y = x^2 {0 < x < 3}",
                 statementWithRestriction(
-                    relation(RelationOperator.EQUALS,
+                    relation(EQUALS,
                         variable("y"),
-                        binary(BinaryOperator.POWER, variable("x"), number(2))),
-                    logical(LogicalOperator.AND,
-                        relation(RelationOperator.LESS, number(0), variable("x")),
-                        relation(RelationOperator.LESS, variable("x"), number(3)))));
+                        binary(POWER, variable("x"), number(2))),
+                    logical(AND,
+                        relation(LESS, number(0), variable("x")),
+                        relation(LESS, variable("x"), number(3)))));
 
             // Function definitions.
             assertTree("f(x) = x^2",
                 statement(functionDefinition("f", ["x"],
-                    binary(BinaryOperator.POWER, variable("x"), number(2)))));
+                    binary(POWER, variable("x"), number(2)))));
 
             assertTree("g(x, y) = x^2 + y^2",
                 statement(functionDefinition("g", ["x", "y"],
-                    binary(BinaryOperator.ADD,
-                        binary(BinaryOperator.POWER, variable("x"), number(2)),
-                        binary(BinaryOperator.POWER, variable("y"), number(2))))));
+                    binary(ADD,
+                        binary(POWER, variable("x"), number(2)),
+                        binary(POWER, variable("y"), number(2))))));
 
             // A deliberately mixed expression: precedence, implicit
             // multiplication, a function call, and a power all at once.
             assertTree("2x + sin(x)^2",
-                statement(binary(BinaryOperator.ADD,
-                    binary(BinaryOperator.MULTIPLY, number(2), variable("x")),
-                    binary(BinaryOperator.POWER,
+                statement(binary(ADD,
+                    binary(MULTIPLY, number(2), variable("x")),
+                    binary(POWER,
                         call("sin", [variable("x")]),
                         number(2)))));
 
@@ -264,25 +264,25 @@ module Garlic {
             }
 
             switch (left.type) {
-                case NodeType.NUMBER:
+                case NUMBER:
                     return left.value == right.value;
 
-                case NodeType.VARIABLE:
+                case VARIABLE:
                     return left.name == right.name;
 
-                case NodeType.CONSTANT:
+                case CONSTANT:
                     return left.name == right.name;
 
-                case NodeType.UNARY:
+                case UNARY:
                     return left.operator == right.operator
                         && astEqual(left.operand, right.operand);
 
-                case NodeType.BINARY:
+                case BINARY:
                     return left.operator == right.operator
                         && astEqual(left.left, right.left)
                         && astEqual(left.right, right.right);
 
-                case NodeType.FUNCTION_CALL:
+                case FUNCTION_CALL:
                     if (left.name != right.name
                         || left.arguments.size() != right.arguments.size()) {
                         return false;
@@ -296,17 +296,17 @@ module Garlic {
 
                     return true;
 
-                case NodeType.RELATION:
+                case RELATION:
                     return left.operator == right.operator
                         && astEqual(left.left, right.left)
                         && astEqual(left.right, right.right);
 
-                case NodeType.LOGICAL:
+                case LOGICAL:
                     return left.operator == right.operator
                         && astEqual(left.left, right.left)
                         && astEqual(left.right, right.right);
 
-                case NodeType.FUNCTION_DEFINITION:
+                case FUNCTION_DEFINITION:
                     if (left.name != right.name
                         || left.parameters.size() != right.parameters.size()) {
                         return false;
@@ -320,7 +320,7 @@ module Garlic {
 
                     return astEqual(left.body, right.body);
 
-                case NodeType.STATEMENT:
+                case STATEMENT:
                     if (left.restrictions.size() != right.restrictions.size()) {
                         return false;
                     }
