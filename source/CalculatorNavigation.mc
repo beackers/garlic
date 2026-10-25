@@ -7,7 +7,7 @@ module Garlic {
     enum CalculatorScreen {
         SCREEN_EDITOR,
         SCREEN_EXPRESSIONS,
-        GRAPH
+        SCREEN_GRAPH
     }
 
     class CalculatorNavigation {
@@ -16,38 +16,38 @@ module Garlic {
         var expressionIndex;
 
         function initialize() {
-            self.screen = EDITOR;
+            self.screen = SCREEN_EDITOR;
             self.keyboardPage = NUMBERS;
             self.expressionIndex = 0;
         }
 
         function swipeLeft() {
-            if (screen != EDITOR) {
+            if (screen != SCREEN_EDITOR) {
                 return;
             }
             keyboardPage = KeyboardPages.previous(keyboardPage);
         }
 
         function swipeRight() {
-            if (screen != EDITOR) {
+            if (screen != SCREEN_EDITOR) {
                 return;
             }
             keyboardPage = KeyboardPages.next(keyboardPage);
         }
 
         function swipeUp() {
-            if (screen == EDITOR) {
-                screen = EXPRESSIONS;
+            if (screen == SCREEN_EDITOR) {
+                screen = SCREEN_EXPRESSIONS;
             }
         }
 
         function swipeDown() {
-            if (screen == EXPRESSIONS) {
-                screen = EDITOR;
+            if (screen == SCREEN_EXPRESSIONS) {
+                screen = SCREEN_EDITOR;
                 return "new_expression";
             }
 
-            if (screen == EDITOR) {
+            if (screen == SCREEN_EDITOR) {
                 return "new_expression";
             }
 
@@ -55,9 +55,9 @@ module Garlic {
         }
 
         function pressStart() {
-            if (screen == EDITOR ||
-                screen == EXPRESSIONS) {
-                screen = GRAPH;
+            if (screen == SCREEN_EDITOR ||
+                screen == SCREEN_EXPRESSIONS) {
+                screen = SCREEN_GRAPH;
                 return "graph";
             }
 
@@ -65,13 +65,13 @@ module Garlic {
         }
 
         function pressBack(cursorAtStart) {
-            if (screen == GRAPH) {
-                screen = EDITOR;
+            if (screen == SCREEN_GRAPH) {
+                screen = SCREEN_EDITOR;
                 return "back_to_editor";
             }
 
-            if (screen == EXPRESSIONS) {
-                screen = EDITOR;
+            if (screen == SCREEN_EXPRESSIONS) {
+                screen = SCREEN_EDITOR;
                 return "back_to_editor";
             }
 
