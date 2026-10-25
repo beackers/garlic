@@ -22,12 +22,16 @@ module Garlic {
         }
 
         function swipeLeft() {
-            if (screen != CalculatorScreen.EDITOR) return;
+            if (screen != CalculatorScreen.EDITOR) {
+                return;
+            }
             keyboardPage = KeyboardPages.previous(keyboardPage);
         }
 
         function swipeRight() {
-            if (screen != CalculatorScreen.EDITOR) return;
+            if (screen != CalculatorScreen.EDITOR) {
+                return;
+            }
             keyboardPage = KeyboardPages.next(keyboardPage);
         }
 
