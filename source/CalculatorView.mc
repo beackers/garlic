@@ -173,7 +173,7 @@ module Garlic {
 
             // Rudimentary graph screen: draw axes and a harmless preview curve.
             // Real expression evaluation/plotting will replace this later.
-            dc.drawText(195, 20, Graphics.FONT_SMALL, "SCREEN_GRAPH",
+            dc.drawText(195, 20, Graphics.FONT_SMALL, "Graph",
                 Graphics.TEXT_JUSTIFY_CENTER);
             dc.drawText(195, 48, Graphics.FONT_SMALL,
                 expression == "" ? "No expression" : expression,
