@@ -12,6 +12,7 @@ module Garlic {
         var touchX;
         var touchY;
         var touchLabel;
+        var evaluator;
 
         function initialize() {
             View.initialize();
@@ -23,6 +24,7 @@ module Garlic {
             touchX = 0;
             touchY = 0;
             touchLabel = null;
+            evaluator = new Evaluator(new Environment());
         }
 
         function onLayout(dc) {
@@ -296,7 +298,7 @@ module Garlic {
             if (navigation.keyboardPage == PAGE_NUMBERS) {
                 var numberKeys = [["7","8","9","/","^"],
                                   ["4","5","6","*","-"],
-                                  ["1","2","3","+"," ,"],
+                                  ["1","2","3","+",","],
                                   ["0",".","x","y","pi"]];
                 return [10 + col * 74, 122 + row * 54, 68, 48,
                     numberKeys[row][col]];
@@ -358,21 +360,81 @@ module Garlic {
             var width = dc.getWidth();
             var center = (width / 2).toNumber();
 
-            dc.drawText(center, 24, Graphics.FONT_LARGE, "Expressions",
+            dc.drawText(center, 12, Graphics.FONT_SMALL, "Expressions",
                 Graphics.TEXT_JUSTIFY_CENTER);
 
+            var y = 38;
             var i = 0;
+
             while (i < expressions.size()) {
-                var prefix = (i == navigation.expressionIndex) ? "> " : "  ";
-                var text = prefix + (expressions[i] == "" ? "_" : expressions[i]);
-                dc.drawText(18, 72 + (i * 34), Graphics.FONT_SMALL, text,
-                    Graphics.TEXT_JUSTIFY_LEFT);
+                var isCurrent = i == navigation.expressionIndex;
+                var boxY = y;
+
+                // Each expression gets its own card. The selected expression
+                // gets the same card, but with a small pointer on the left.
+                dc.drawRoundedRectangle(10, boxY, width - 20, 58, 8);
+
+                if (isCurrent) {
+                    dc.drawText(18, boxY + 9, Graphics.FONT_XTINY, ">",
+                        Graphics.TEXT_JUSTIFY_LEFT);
+                }
+
+                var expressionText = expressions[i] == "" ? "_" : expressions[i];
+                var textX = isCurrent ? 32 : 20;
+                dc.drawText(textX, boxY + 7, Graphics.FONT_SMALL,
+                    expressionText, Graphics.TEXT_JUSTIFY_LEFT);
+
+                var result = expressionResult(expressions[i]);
+                if (result != null) {
+                    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+                    dc.drawText(textX, boxY + 34, Graphics.FONT_XTINY,
+                        result, Graphics.TEXT_JUSTIFY_LEFT);
+                    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+                }
+
+                y += 66;
                 i += 1;
             }
 
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
             dc.drawText(center, 350, Graphics.FONT_XTINY,
                 "UP edit   DOWN new   START graph   BACK edit",
                 Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        // Return a compact numeric result for a plain expression.
+        // Relations/equations and function definitions intentionally return
+        // null because they belong to the graphing/function workspace.
+        function expressionResult(text) {
+            if (text == null || text == "") {
+                return null;
+            }
+
+            try {
+                var tokenizer = new Tokenizer(text);
+                var parser = new Parser(tokenizer.tokenize());
+                var statement = parser.parse();
+                var node = statement.expression;
+
+                if (node.type != NODE_NUMBER &&
+                    node.type != NODE_CONSTANT &&
+                    node.type != NODE_UNARY &&
+                    node.type != NODE_BINARY &&
+                    node.type != NODE_FUNCTION_CALL) {
+                    return null;
+                }
+
+                var value = evaluator.evaluate(node);
+                return formatNumber(value);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function formatNumber(value) {
+            // Garmin's default number-to-string conversion is compact enough
+            // for the expression list, and avoids adding a full formatter yet.
+            return value.toString();
         }
 
         function drawGraph(dc) {
