@@ -411,7 +411,7 @@ module Garlic {
             }
 
             try {
-                var tokenizer = new Tokenizer(text);
+                var tokenizer = new Lexer(text);
                 var parser = new Parser(tokenizer.tokenize());
                 var statement = parser.parse();
                 var node = statement.expression;
