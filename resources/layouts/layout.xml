@@ -78,8 +78,8 @@
 
         <button id="KeyRightParen" x="192" y="136" width="50" height="38" background="Graphics.COLOR_DK_GRAY">
             <state id="stateDefault" color="Graphics.COLOR_DK_GRAY" />
-            <state id="stateHighlighted" color="Graphics.GRAY" />
-            <state id="stateSelected" color="Graphics.GRAY" />
+            <state id="stateHighlighted" color="Graphics.COLOR_GRAY" />
+            <state id="stateSelected" color="Graphics.COLOR_GRAY" />
             <state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" />
         </button>
         <label x="217" y="155" text=")" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
@@ -149,7 +149,7 @@
         <label x="165" y="362" text="tan" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
         <button id="KeySqrt" x="192" y="346" width="50" height="32"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
         <label x="217" y="362" text="sqrt" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyLn" x="244" y="346" width="50" height="32"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.GRAY" /><state id="stateSelected" color="Graphics.GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
+        <button id="KeyLn" x="244" y="346" width="50" height="32"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
         <label x="269" y="362" text="ln" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
 
     </layout>
