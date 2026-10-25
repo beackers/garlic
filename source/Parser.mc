@@ -92,8 +92,9 @@ module Garlic {
                 return left;
             }
 
-            var relation = new RelationNode(relationOperator(current()), left, parseArithmeticExpression(0));
+            var relationOp = relationOperator(current());
             advance();
+            var relation = new RelationNode(relationOp, left, parseArithmeticExpression(0));
 
             // Desmos accepts chained inequalities such as 0 < x < 3.
             // Represent the chain as LOGICAL_AND of adjacent comparisons.
@@ -182,7 +183,7 @@ module Garlic {
 
             if (match(TOKEN_NUMBER)) {
                 var token = previous();
-                return new NumberNode(Lang.toNumber(token.text));
+                return new NumberNode(token.text.toNumber());
             }
 
             if (match(TOKEN_LPAREN)) {
@@ -228,7 +229,7 @@ module Garlic {
             if (token.type == TOKEN_MULTIPLY) {
                 return BINARY_MULTIPLY;
             }
-            if (token.type == BINARY_DIVIDE) {
+            if (token.type == TOKEN_DIVIDE) {
                 return BINARY_DIVIDE;
             }
             if (token.type == TOKEN_CARET) {
