@@ -46,7 +46,9 @@ module Garlic {
         }
 
         function backspace() {
-            if (cursor <= 0) return;
+            if (cursor <= 0) {
+                return;
+            }
             expression = expression.substring(0, cursor - 1) +
                          expression.substring(cursor, expression.length());
             cursor -= 1;
@@ -73,10 +75,14 @@ module Garlic {
 
         function refreshText() {
             var label = findDrawableById("ExpressionLabel") as WatchUi.Text?;
-            if (label != null) label.setText(expression == "" ? "_" : expression);
+            if (label != null) {
+                label.setText(expression == "" ? "_" : expression);
+            }
 
             var cursorLabel = findDrawableById("CursorLabel") as WatchUi.Text?;
-            if (cursorLabel != null) cursorLabel.setText("|");
+            if (cursorLabel != null) {
+                cursorLabel.setText("|");
+            }
 
             var history = findDrawableById("HistoryLabel") as WatchUi.Text?;
             if (history != null) {
@@ -88,10 +94,14 @@ module Garlic {
             }
 
             var mode = findDrawableById("ModeLabel") as WatchUi.Text?;
-            if (mode != null) mode.setText(modeText());
+            if (mode != null) {
+                mode.setText(modeText());
+            }
 
             var page = findDrawableById("PageHint") as WatchUi.Text?;
-            if (page != null) page.setText(pageText());
+            if (page != null) {
+                page.setText(pageText());
+            }
 
             WatchUi.requestUpdate();
         }
@@ -192,7 +202,9 @@ module Garlic {
         }
 
         function handleTap(x, y) {
-            if (navigation.screen != CalculatorScreen.EDITOR) return;
+            if (navigation.screen != CalculatorScreen.EDITOR) {
+                return;
+            }
 
             if (navigation.keyboardPage == KeyboardPage.NUMBERS) {
                 if (y >= 128 && y < 166 && x >= 36 && x < 294) {
@@ -221,7 +233,9 @@ module Garlic {
 
             var keys2 = KeyboardPages.keys(navigation.keyboardPage);
             var key = keyAtPoint(keys2, x, y);
-            if (key != null && key.insertion != "") insert(key.insertion);
+            if (key != null && key.insertion != "") {
+                insert(key.insertion);
+            }
         }
 
         function keyAtPoint(keys, x, y) {
