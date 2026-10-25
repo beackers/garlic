@@ -1,3 +1,5 @@
+using Toybox.Lang as Lang;
+
 module Garlic {
     enum NodeType {
         NODE_NUMBER,
