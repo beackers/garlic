@@ -20,6 +20,24 @@ module Garlic {
             return true;
         }
 
+        function onHold(evt) {
+            var point = evt.getCoordinates();
+            view.beginTouch(point[0], point[1]);
+            return true;
+        }
+
+        function onDrag(evt) {
+            var point = evt.getCoordinates();
+            view.moveTouch(point[0], point[1]);
+            return true;
+        }
+
+        function onRelease(evt) {
+            var point = evt.getCoordinates();
+            view.endTouch(point[0], point[1]);
+            return true;
+        }
+
         function onKey(evt) {
             var key = evt.getKey();
 
