@@ -29,12 +29,12 @@ module Garlic {
             var expression = parseStatementExpression();
 
             var restrictions = [];
-            while (match(TokenType.LBRACE)) {
+            while (match(LBRACE)) {
                 restrictions.add(parseLogicalExpression());
-                expect(TokenType.RBRACE, "Expected '}'");
+                expect(RBRACE, "Expected '}'");
             }
 
-            if (!check(TokenType.EOF)) {
+            if (!check(EOF)) {
                 throw new ParserError("Unexpected token '" + current().text + "'", current().position);
             }
 
@@ -52,19 +52,19 @@ module Garlic {
 
         function parseFunctionDefinition() {
             var name = expectIdentifier("Expected function name");
-            expect(TokenType.LPAREN, "Expected '(' after function name");
+            expect(LPAREN, "Expected '(' after function name");
 
             var parameters = [];
-            if (!check(TokenType.RPAREN)) {
+            if (!check(RPAREN)) {
                 parameters.add(expectIdentifier("Expected parameter name"));
 
-                while (match(TokenType.COMMA)) {
+                while (match(COMMA)) {
                     parameters.add(expectIdentifier("Expected parameter name"));
                 }
             }
 
-            expect(TokenType.RPAREN, "Expected ')' after parameters");
-            expect(TokenType.EQUALS, "Expected '=' in function definition");
+            expect(RPAREN, "Expected ')' after parameters");
+            expect(EQUALS, "Expected '=' in function definition");
 
             var body = parseLogicalExpression();
             return new FunctionDefinitionNode(name, parameters, body);
@@ -75,7 +75,7 @@ module Garlic {
 
             while (isIdentifier("or")) {
                 advance();
-                left = new LogicalNode(LogicalOperator.OR, left, parseRelationExpression());
+                left = new LogicalNode(OR, left, parseRelationExpression());
             }
 
             return left;
@@ -102,7 +102,7 @@ module Garlic {
                 advance();
                 var right = parseArithmeticExpression(0);
                 relation = new LogicalNode(
-                    LogicalOperator.AND,
+                    AND,
                     relation,
                     new RelationNode(op, relationRight(relation), right)
                 );
@@ -111,7 +111,7 @@ module Garlic {
             while (isIdentifier("and")) {
                 advance();
                 relation = new LogicalNode(
-                    LogicalOperator.AND,
+                    AND,
                     relation,
                     parseRelationExpression()
                 );
@@ -124,11 +124,11 @@ module Garlic {
         // relations this is simply relation.right; for an existing chain it
         // is the rightmost operand.
         function relationRight(node) {
-            if (node.type == NodeType.RELATION) {
+            if (node.type == RELATION) {
                 return node.right;
             }
 
-            if (node.type == NodeType.LOGICAL && node.operator == LogicalOperator.AND) {
+            if (node.type == LOGICAL && node.operator == AND) {
                 return relationRight(node.right);
             }
 
@@ -143,7 +143,7 @@ module Garlic {
                 var op = explicitBinaryOperator(token);
 
                 if (op == null && startsExpression(token)) {
-                    op = BinaryOperator.MULTIPLY;
+                    op = MULTIPLY;
                 }
 
                 if (op == null) {
@@ -163,7 +163,7 @@ module Garlic {
                 // Implicit multiplication has ordinary multiplicative
                 // precedence. The right side is parsed tightly enough that
                 // 2x^2 becomes 2*(x^2), while 2xy becomes (2*x)*y.
-                var nextMin = (op == BinaryOperator.POWER) ? precedence : precedence + 1;
+                var nextMin = (op == POWER) ? precedence : precedence + 1;
                 var right = parseArithmeticExpression(nextMin);
                 left = new BinaryNode(op, left, right);
             }
@@ -172,39 +172,39 @@ module Garlic {
         }
 
         function parsePrefix() {
-            if (match(TokenType.PLUS)) {
-                return new UnaryNode(UnaryOperator.POSITIVE, parseArithmeticExpression(25));
+            if (match(PLUS)) {
+                return new UnaryNode(POSITIVE, parseArithmeticExpression(25));
             }
 
-            if (match(TokenType.MINUS)) {
-                return new UnaryNode(UnaryOperator.NEGATE, parseArithmeticExpression(25));
+            if (match(MINUS)) {
+                return new UnaryNode(NEGATE, parseArithmeticExpression(25));
             }
 
-            if (match(TokenType.NUMBER)) {
+            if (match(NUMBER)) {
                 var token = previous();
                 return new NumberNode(Lang.toNumber(token.text));
             }
 
-            if (match(TokenType.LPAREN)) {
+            if (match(LPAREN)) {
                 var expression = parseLogicalExpression();
-                expect(TokenType.RPAREN, "Expected ')'");
+                expect(RPAREN, "Expected ')'");
                 return expression;
             }
 
-            if (match(TokenType.IDENTIFIER)) {
+            if (match(IDENTIFIER)) {
                 var name = previous().text;
 
-                if (match(TokenType.LPAREN)) {
+                if (match(LPAREN)) {
                     var args = [];
-                    if (!check(TokenType.RPAREN)) {
+                    if (!check(RPAREN)) {
                         args.add(parseLogicalExpression());
 
-                        while (match(TokenType.COMMA)) {
+                        while (match(COMMA)) {
                             args.add(parseLogicalExpression());
                         }
                     }
 
-                    expect(TokenType.RPAREN, "Expected ')'");
+                    expect(RPAREN, "Expected ')'");
                     return new FunctionCallNode(name, args);
                 }
 
@@ -219,39 +219,39 @@ module Garlic {
         }
 
         function explicitBinaryOperator(token) {
-            if (token.type == TokenType.PLUS) {
-                return BinaryOperator.ADD;
+            if (token.type == PLUS) {
+                return ADD;
             }
-            if (token.type == TokenType.MINUS) {
-                return BinaryOperator.SUBTRACT;
+            if (token.type == MINUS) {
+                return SUBTRACT;
             }
-            if (token.type == TokenType.MULTIPLY) {
-                return BinaryOperator.MULTIPLY;
+            if (token.type == MULTIPLY) {
+                return MULTIPLY;
             }
-            if (token.type == TokenType.DIVIDE) {
-                return BinaryOperator.DIVIDE;
+            if (token.type == DIVIDE) {
+                return DIVIDE;
             }
-            if (token.type == TokenType.CARET) {
-                return BinaryOperator.POWER;
+            if (token.type == CARET) {
+                return POWER;
             }
             return null;
         }
 
         function relationOperator(token) {
-            if (token.type == TokenType.EQUALS) {
-                return RelationOperator.EQUALS;
+            if (token.type == EQUALS) {
+                return EQUALS;
             }
-            if (token.type == TokenType.LESS) {
-                return RelationOperator.LESS;
+            if (token.type == LESS) {
+                return LESS;
             }
-            if (token.type == TokenType.GREATER) {
-                return RelationOperator.GREATER;
+            if (token.type == GREATER) {
+                return GREATER;
             }
-            if (token.type == TokenType.LESS_EQUAL) {
-                return RelationOperator.LESS_EQUAL;
+            if (token.type == LESS_EQUAL) {
+                return LESS_EQUAL;
             }
-            if (token.type == TokenType.GREATER_EQUAL) {
-                return RelationOperator.GREATER_EQUAL;
+            if (token.type == GREATER_EQUAL) {
+                return GREATER_EQUAL;
             }
             return null;
         }
@@ -261,53 +261,53 @@ module Garlic {
         }
 
         function precedenceOf(operator) {
-            if (operator == BinaryOperator.ADD || operator == BinaryOperator.SUBTRACT) {
+            if (operator == ADD || operator == SUBTRACT) {
                 return 10;
             }
-            if (operator == BinaryOperator.MULTIPLY || operator == BinaryOperator.DIVIDE) {
+            if (operator == MULTIPLY || operator == DIVIDE) {
                 return 20;
             }
-            if (operator == BinaryOperator.POWER) {
+            if (operator == POWER) {
                 return 30;
             }
             return -1;
         }
 
         function startsExpression(token) {
-            return token.type == TokenType.NUMBER ||
-                   token.type == TokenType.IDENTIFIER ||
-                   token.type == TokenType.LPAREN;
+            return token.type == NUMBER ||
+                   token.type == IDENTIFIER ||
+                   token.type == LPAREN;
         }
 
         function isFunctionDefinitionStart() {
-            if (current().type != TokenType.IDENTIFIER) {
+            if (current().type != IDENTIFIER) {
                 return false;
             }
             if (self.index + 1 >= self.tokens.size()) {
                 return false;
             }
-            if (self.tokens[self.index + 1].type != TokenType.LPAREN) {
+            if (self.tokens[self.index + 1].type != LPAREN) {
                 return false;
             }
 
             var i = self.index + 2;
-            if (self.tokens[i].type == TokenType.RPAREN) {
+            if (self.tokens[i].type == RPAREN) {
                 return self.index + 3 < self.tokens.size() &&
-                       self.tokens[self.index + 3].type == TokenType.EQUALS;
+                       self.tokens[self.index + 3].type == EQUALS;
             }
 
             while (i < self.tokens.size()) {
-                if (self.tokens[i].type != TokenType.IDENTIFIER) {
+                if (self.tokens[i].type != IDENTIFIER) {
                     return false;
                 }
                 i += 1;
 
-                if (self.tokens[i].type == TokenType.RPAREN) {
+                if (self.tokens[i].type == RPAREN) {
                     return i + 1 < self.tokens.size() &&
-                           self.tokens[i + 1].type == TokenType.EQUALS;
+                           self.tokens[i + 1].type == EQUALS;
                 }
 
-                if (self.tokens[i].type != TokenType.COMMA) {
+                if (self.tokens[i].type != COMMA) {
 
                     return false;
 
@@ -319,7 +319,7 @@ module Garlic {
         }
 
         function expectIdentifier(message) {
-            if (!check(TokenType.IDENTIFIER)) {
+            if (!check(IDENTIFIER)) {
                 throw new ParserError(message, current().position);
             }
 
@@ -329,7 +329,7 @@ module Garlic {
         }
 
         function isIdentifier(name) {
-            return current().type == TokenType.IDENTIFIER && current().text == name;
+            return current().type == IDENTIFIER && current().text == name;
         }
 
         function current() {
@@ -342,7 +342,7 @@ module Garlic {
 
         function advance() {
             var token = current();
-            if (!check(TokenType.EOF)) {
+            if (!check(EOF)) {
                 self.index += 1;
             }
             return token;
