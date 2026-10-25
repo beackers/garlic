@@ -8,6 +8,10 @@ module Garlic {
         var cursor;
         var expressions;
         var dc;
+        var touchActive;
+        var touchX;
+        var touchY;
+        var touchLabel;
 
         function initialize() {
             View.initialize();
@@ -15,6 +19,10 @@ module Garlic {
             expression = "";
             cursor = 0;
             expressions = [""];
+            touchActive = false;
+            touchX = 0;
+            touchY = 0;
+            touchLabel = null;
         }
 
         function onLayout(dc) {
@@ -157,38 +165,35 @@ module Garlic {
             var width = dc.getWidth();
             var center = (width / 2).toNumber();
 
-            dc.drawText(center, 12, Graphics.FONT_XTINY, modeText(),
+            dc.drawText(center, 8, Graphics.FONT_XTINY, modeText(),
                 Graphics.TEXT_JUSTIFY_CENTER);
 
             if (navigation.expressionIndex > 0) {
                 dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-                dc.drawText(18, 30, Graphics.FONT_XTINY,
+                dc.drawText(18, 24, Graphics.FONT_XTINY,
                     expressions[navigation.expressionIndex - 1],
                     Graphics.TEXT_JUSTIFY_LEFT);
                 dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
             }
 
-            // Expression field.
-            dc.drawRoundedRectangle(12, 48, width - 24, 48, 7);
+            // Compact expression field.
+            dc.drawRoundedRectangle(10, 40, width - 20, 42, 7);
             var shown = expression == "" ? "_" : expression;
-            dc.drawText(22, 61, Graphics.FONT_LARGE, shown,
+            dc.drawText(18, 50, Graphics.FONT_LARGE, shown,
                 Graphics.TEXT_JUSTIFY_LEFT);
 
-            // Cursor is intentionally simple for now. A proper text cursor
-            // will come with horizontal scrolling/editing.
-            var cursorText = shown;
             if (cursor <= expression.length()) {
                 var prefix = expression.substring(0, cursor);
-                var cursorX = 22 + dc.getTextWidthInPixels(prefix, Graphics.FONT_LARGE);
-                dc.drawLine(cursorX, 58, cursorX, 89);
+                var cursorX = 18 + dc.getTextWidthInPixels(prefix, Graphics.FONT_LARGE);
+                dc.drawLine(cursorX, 49, cursorX, 77);
             }
 
-            // Top command row.
-            drawKey(dc, 12, 104, 68, 30, "CLR");
-            drawKey(dc, 86, 104, 68, 30, "DEL");
-            drawKey(dc, 160, 104, 68, 30, "(");
-            drawKey(dc, 234, 104, 68, 30, ")");
-            drawKey(dc, 308, 104, 68, 30, "=");
+            // Compact command row.
+            drawKey(dc, 10, 88, 68, 28, "CLR");
+            drawKey(dc, 86, 88, 68, 28, "DEL");
+            drawKey(dc, 162, 88, 68, 28, "(");
+            drawKey(dc, 238, 88, 68, 28, ")");
+            drawKey(dc, 314, 88, 66, 28, "=");
 
             if (navigation.keyboardPage == PAGE_NUMBERS) {
                 drawGrid(dc, [
@@ -201,8 +206,14 @@ module Garlic {
                 drawKeyboardPage(dc);
             }
 
+            // Touch magnifier is drawn last so it is always visible above
+            // the key currently under the finger.
+            if (touchActive && touchLabel != null) {
+                drawTouchMagnifier(dc);
+            }
+
             dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-            dc.drawText(center, 360, Graphics.FONT_XTINY,
+            dc.drawText(center, 374, Graphics.FONT_XTINY,
                 pageText() + "   swipe pages   START graph",
                 Graphics.TEXT_JUSTIFY_CENTER);
         }
@@ -213,9 +224,95 @@ module Garlic {
                 Graphics.FONT_SMALL, label, Graphics.TEXT_JUSTIFY_CENTER);
         }
 
+        function drawTouchMagnifier(dc) {
+            var width = dc.getWidth();
+            var bubbleX = touchX;
+            var bubbleY = touchY - 62;
+
+            if (bubbleY < 48) {
+                bubbleY = 48;
+            }
+            if (bubbleX < 48) {
+                bubbleX = 48;
+            }
+            if (bubbleX > width - 48) {
+                bubbleX = width - 48;
+            }
+
+            // Highlight the key underneath the finger.
+            var hit = keyRect(touchX, touchY);
+            if (hit != null) {
+                dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+                dc.fillRoundedRectangle(hit[0], hit[1], hit[2], hit[3], 6);
+                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+                dc.drawText(hit[0] + (hit[2] / 2).toNumber(),
+                    hit[1] + 12, Graphics.FONT_SMALL, hit[4],
+                    Graphics.TEXT_JUSTIFY_CENTER);
+            }
+
+            // Magnified bubble, deliberately offset above the finger.
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            dc.fillCircle(bubbleX, bubbleY, 42);
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
+            dc.drawCircle(bubbleX, bubbleY, 42);
+            dc.drawText(bubbleX, bubbleY - 19, Graphics.FONT_XLARGE,
+                touchLabel, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(bubbleX, bubbleY + 17, Graphics.FONT_XTINY,
+                "release",
+                Graphics.TEXT_JUSTIFY_CENTER);
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        }
+
+        function keyRect(x, y) {
+            // Returns [x, y, width, height, label] for the compact editor grid.
+            if (y >= 88 && y < 116 && x >= 10 && x < 380) {
+                if (x < 78) {
+                    return [10, 88, 68, 28, "CLR"];
+                }
+                if (x < 154) {
+                    return [86, 88, 68, 28, "DEL"];
+                }
+                if (x < 230) {
+                    return [162, 88, 68, 28, "("];
+                }
+                if (x < 306) {
+                    return [238, 88, 68, 28, ")"];
+                }
+                return [314, 88, 66, 28, "="];
+            }
+
+            if (y < 122 || y >= 340 || x < 10 || x >= 380) {
+                return null;
+            }
+
+            var col = ((x - 10) / 74).toNumber();
+            var row = ((y - 122) / 54).toNumber();
+            if (col < 0 || col >= 5 || row < 0 || row >= 4) {
+                return null;
+            }
+
+            var index = row * 5 + col;
+            var keys = KeyboardPages.keys(navigation.keyboardPage);
+            if (navigation.keyboardPage == PAGE_NUMBERS) {
+                var numberKeys = [["7","8","9","/","^"],
+                                  ["4","5","6","*","-"],
+                                  ["1","2","3","+"," ,"],
+                                  ["0",".","x","y","pi"]];
+                return [10 + col * 74, 122 + row * 54, 68, 48,
+                    numberKeys[row][col]];
+            }
+
+            if (index < keys.size()) {
+                return [10 + col * 74, 122 + row * 54, 68, 48,
+                    keys[index].label];
+            }
+
+            return null;
+        }
+
         function drawGrid(dc, rows) {
-            var x0 = 12;
-            var y0 = 140;
+            var x0 = 10;
+            var y0 = 122;
             var w = 68;
             var h = 48;
             var gap = 6;
@@ -315,74 +412,78 @@ module Garlic {
                 return;
             }
 
-            if (navigation.keyboardPage == PAGE_NUMBERS) {
-                if (y >= 128 && y < 166 && x >= 36 && x < 294) {
-                    var col = ((x - 36) / 52).toNumber();
-                    if (col == 0) {
-                        clearExpression();
-                    } else if (col == 1) {
-                        backspace();
-                    } else if (col == 2) {
-                        insert("(");
-                    } else if (col == 3) {
-                        insert(")");
-                    } else if (col == 4) {
-                        insert("=");
-                    }
-                    return;
-                }
-
-                if (y >= 170 && y < 334 && x >= 36 && x < 294) {
-                    var c = ((x - 36) / 52).toNumber();
-                    var row = ((y - 170) / 42).toNumber();
-                    var keys = [["7","8","9","/","^"],
-                                ["4","5","6","*","-"],
-                                ["1","2","3","+",","],
-                                ["0",".","x","y","pi"]];
-                    if (row >= 0 && row < 4 && c >= 0 && c < 5) {
-                        insert(keys[row][c]);
-                    }
-                    return;
-                }
+            var hit = keyRect(x, y);
+            if (hit == null) {
+                return;
             }
 
-            var keys2 = KeyboardPages.keys(navigation.keyboardPage);
-            var key = keyAtPoint(keys2, x, y);
-            if (key != null && key.insertion != "") {
-                insert(key.insertion);
+            activateKey(hit[4]);
+        }
+
+        function activateKey(label) {
+            if (label == "CLR") {
+                clearExpression();
+            } else if (label == "DEL") {
+                backspace();
+            } else if (label == "(") {
+                insert("(");
+            } else if (label == ")") {
+                insert(")");
+            } else if (label == "=") {
+                insert("=");
+            } else {
+                insert(label);
             }
         }
 
-        function keyAtPoint(keys, x, y) {
-            var row;
-            var col;
-
-            if (navigation.keyboardPage == PAGE_LETTERS) {
-                if (y < 128 || y >= 334 || x < 36 || x >= 294) {
-                    return null;
-                }
-                row = ((y - 128) / 42).toNumber();
-                col = ((x - 36) / 86).toNumber();
-                var index = row * 3 + col;
-                if (row >= 0 && row < 3 && col >= 0 && col < 3 &&
-                    index < keys.size()) {
-                    return keys[index];
-                }
-                return null;
+        function beginTouch(x, y) {
+            if (navigation.screen != SCREEN_EDITOR) {
+                return;
             }
 
-            if (y < 128 || y >= 334 || x < 36 || x >= 294) {
+            touchX = x;
+            touchY = y;
+            touchLabel = null;
 
-                return null;
+            var hit = keyRect(x, y);
+            if (hit != null) {
+                touchLabel = hit[4];
+            }
 
+            touchActive = true;
+            WatchUi.requestUpdate();
+        }
+
+        function moveTouch(x, y) {
+            if (!touchActive) {
+                return;
             }
-            row = ((y - 128) / 42).toNumber();
-            col = ((x - 36) / 52).toNumber();
-            var index2 = row * 5 + col;
-            if (index2 >= 0 && index2 < keys.size()) {
-                return keys[index2];
+
+            touchX = x;
+            touchY = y;
+
+            var hit = keyRect(x, y);
+            touchLabel = hit == null ? null : hit[4];
+            WatchUi.requestUpdate();
+        }
+
+        function endTouch(x, y) {
+            if (!touchActive) {
+                return;
             }
-            return null;
+
+            touchX = x;
+            touchY = y;
+
+            var hit = keyRect(x, y);
+            touchActive = false;
+
+            if (hit != null) {
+                activateKey(hit[4]);
+            }
+
+            touchLabel = null;
+            WatchUi.requestUpdate();
         }
 
         function handleSwipe(direction) {
