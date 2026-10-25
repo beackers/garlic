@@ -1,0 +1,86 @@
+name: Build Garlic
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Lint and compile for vívoactive 5
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Validate Garmin project files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          missing=0
+
+          for file in manifest.xml monkey.jungle; do
+            if [[ ! -f "$file" ]]; then
+              echo "::error file=$file::Required Garmin project file '$file' is missing."
+              missing=1
+            fi
+          done
+
+          if [[ "$missing" -ne 0 ]]; then
+            echo ""
+            echo "Garlic is not yet a complete Connect IQ project."
+            echo "The build requires manifest.xml and monkey.jungle."
+            exit 1
+          fi
+
+      - name: Prepare developer key
+        shell: bash
+        env:
+          GARMIN_DEVELOPER_KEY_B64: ${{ secrets.GARMIN_DEVELOPER_KEY_B64 }}
+        run: |
+          set -euo pipefail
+
+          if [[ -n "${GARMIN_DEVELOPER_KEY_B64:-}" ]]; then
+            echo "Using the repository's persistent Garmin developer key."
+            printf '%s' "$GARMIN_DEVELOPER_KEY_B64" | base64 --decode > developer_key.der
+          else
+            echo "::warning::GARMIN_DEVELOPER_KEY_B64 is not configured; generating an ephemeral development key."
+            openssl genrsa -out developer_key.pem 4096 2>/dev/null
+            openssl pkcs8 -topk8 -inform PEM -outform DER               -in developer_key.pem -out developer_key.der -nocrypt
+            rm -f developer_key.pem
+          fi
+
+          chmod 600 developer_key.der
+
+      - name: Lint and compile
+        id: build
+        uses: blackshadev/garmin-connectiq-build-action@9.2.0
+        with:
+          projectJungle: ./monkey.jungle
+          developerKey: ./developer_key.der
+          outputPath: ./out/Garlic.prg
+          device: vivoactive5
+          typeCheck: '3'
+
+      - name: Upload PRG
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Garlic-vivoactive5
+          path: ./out/Garlic.prg
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Explain build failure
+        if: failure() && steps.build.outcome == 'failure'
+        shell: bash
+        run: |
+          echo "Garlic failed to compile for vivoactive5."
+          echo ""
+          echo "The preceding 'Lint and compile' step contains the Monkey C"
+          echo "compiler's file/line diagnostics. GitHub marks this job failed"
+          echo "because monkeyc rejected the source or project configuration."
