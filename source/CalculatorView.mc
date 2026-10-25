@@ -114,6 +114,63 @@ module Garlic {
             return "← 5/5 →";
         }
 
+        function onUpdate(dc) {
+            if (navigation.screen == CalculatorScreen.EDITOR) {
+                return;
+            }
+
+            dc.clear();
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+
+            if (navigation.screen == CalculatorScreen.EXPRESSIONS) {
+                dc.drawText(195, 24, Graphics.FONT_LARGE, "Expressions",
+                    Graphics.TEXT_JUSTIFY_CENTER);
+
+                var i = 0;
+                while (i < expressions.size()) {
+                    var prefix = (i == navigation.expressionIndex) ? "> " : "  ";
+                    var text = prefix + (expressions[i] == "" ? "_" : expressions[i]);
+                    dc.drawText(28, 72 + (i * 34), Graphics.FONT_SMALL, text,
+                        Graphics.TEXT_JUSTIFY_LEFT);
+                    i += 1;
+                }
+
+                dc.drawText(195, 350, Graphics.FONT_XTINY,
+                    "↑ edit   ↓ new   START graph   BACK edit",
+                    Graphics.TEXT_JUSTIFY_CENTER);
+                return;
+            }
+
+            // Rudimentary graph screen: draw axes and a harmless preview curve.
+            // Real expression evaluation/plotting will replace this later.
+            dc.drawText(195, 20, Graphics.FONT_SMALL, "GRAPH",
+                Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(195, 48, Graphics.FONT_SMALL,
+                expression == "" ? "No expression" : expression,
+                Graphics.TEXT_JUSTIFY_CENTER);
+
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+            dc.drawLine(195, 82, 195, 330);
+            dc.drawLine(42, 206, 348, 206);
+
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            var x = 45;
+            var lastY = 206;
+            while (x <= 345) {
+                var dx = (x - 195).toFloat() / 55.0;
+                var y = 206 - (dx * dx * 22.0);
+                if (x > 45) {
+                    dc.drawLine(x - 1, lastY, x, y.toNumber());
+                }
+                lastY = y.toNumber();
+                x += 3;
+            }
+
+            dc.drawText(195, 350, Graphics.FONT_XTINY,
+                "BACK edit   START/SELECT",
+                Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
         function handleTap(x, y) {
             if (navigation.screen != CalculatorScreen.EDITOR) return;
 
