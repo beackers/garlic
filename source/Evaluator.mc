@@ -36,8 +36,12 @@ module Garlic {
             }
 
             if (node.type == NodeType.CONSTANT) {
-                if (node.name == "pi") return Math.PI;
-                if (node.name == "e") return Math.E;
+                if (node.name == "pi") {
+                    return Math.PI;
+                }
+                if (node.name == "e") {
+                    return Math.E;
+                }
                 throw new ParserError("Unknown constant '" + node.name + "'", 0);
             }
 
@@ -50,7 +54,9 @@ module Garlic {
 
             if (node.type == NodeType.UNARY) {
                 var value = evaluate(node.operand);
-                if (node.operator == UnaryOperator.NEGATE) return -value;
+                if (node.operator == UnaryOperator.NEGATE) {
+                    return -value;
+                }
                 return value;
             }
 
@@ -58,11 +64,23 @@ module Garlic {
                 var left = evaluate(node.left);
                 var right = evaluate(node.right);
 
-                if (node.operator == BinaryOperator.ADD) return left + right;
-                if (node.operator == BinaryOperator.SUBTRACT) return left - right;
-                if (node.operator == BinaryOperator.MULTIPLY) return left * right;
-                if (node.operator == BinaryOperator.DIVIDE) return left / right;
-                if (node.operator == BinaryOperator.POWER) return Math.pow(left, right);
+                if (node.operator == BinaryOperator.ADD) {
+
+                    return left + right;
+
+                }
+                if (node.operator == BinaryOperator.SUBTRACT) {
+                    return left - right;
+                }
+                if (node.operator == BinaryOperator.MULTIPLY) {
+                    return left * right;
+                }
+                if (node.operator == BinaryOperator.DIVIDE) {
+                    return left / right;
+                }
+                if (node.operator == BinaryOperator.POWER) {
+                    return Math.pow(left, right);
+                }
             }
 
             if (node.type == NodeType.FUNCTION_CALL) {
@@ -79,12 +97,26 @@ module Garlic {
 
             var x = evaluate(args[0]);
 
-            if (name == "sin") return Math.sin(x);
-            if (name == "cos") return Math.cos(x);
-            if (name == "tan") return Math.tan(x);
-            if (name == "sqrt") return Math.sqrt(x);
-            if (name == "ln") return Math.log(x);
-            if (name == "abs") return Math.abs(x);
+            if (name == "sin") {
+
+                return Math.sin(x);
+
+            }
+            if (name == "cos") {
+                return Math.cos(x);
+            }
+            if (name == "tan") {
+                return Math.tan(x);
+            }
+            if (name == "sqrt") {
+                return Math.sqrt(x);
+            }
+            if (name == "ln") {
+                return Math.log(x);
+            }
+            if (name == "abs") {
+                return Math.abs(x);
+            }
 
             throw new ParserError("Unknown function '" + name + "'", 0);
         }
