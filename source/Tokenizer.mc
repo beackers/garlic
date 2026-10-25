@@ -125,8 +125,12 @@ module Garlic {
                 return new Token(TokenType.GREATER, ">", start);
             }
 
-            if (c == "{") return new Token(TokenType.LBRACE, "{", start);
-            if (c == "}") return new Token(TokenType.RBRACE, "}", start);
+            if (c == "{") {
+                return new Token(TokenType.LBRACE, "{", start);
+            }
+            if (c == "}") {
+                return new Token(TokenType.RBRACE, "}", start);
+            }
 
             throw new ParserError("Unexpected character '" + c + "'", start);
         }
