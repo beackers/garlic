@@ -19,7 +19,7 @@ module Garlic {
         TOKEN_GREATER_EQUAL,
         TOKEN_LBRACE,
         TOKEN_RBRACE,
-        EOF
+        TOKEN_EOF
     }
 
     class Token {
@@ -52,7 +52,7 @@ module Garlic {
             while (true) {
                 var token = nextToken();
                 tokens.add(token);
-                if (token.type == EOF) {
+                if (token.type == TOKEN_EOF) {
                     break;
                 }
             }
