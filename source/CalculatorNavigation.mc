@@ -55,8 +55,12 @@ module Garlic {
         }
 
         function pressStart() {
-            if (screen == SCREEN_EDITOR ||
-                screen == SCREEN_EXPRESSIONS) {
+            if (screen == SCREEN_EDITOR) {
+                screen = SCREEN_EXPRESSIONS;
+                return "expressions";
+            }
+
+            if (screen == SCREEN_EXPRESSIONS) {
                 screen = SCREEN_GRAPH;
                 return "graph";
             }
