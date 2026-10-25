@@ -2,23 +2,23 @@ using Toybox.Lang as Lang;
 
 module Garlic {
     enum TokenType {
-        NUMBER,
-        IDENTIFIER,
-        PLUS,
-        MINUS,
-        MULTIPLY,
-        DIVIDE,
-        CARET,
-        LPAREN,
-        RPAREN,
-        COMMA,
-        EQUALS,
-        LESS,
-        GREATER,
-        LESS_EQUAL,
-        GREATER_EQUAL,
-        LBRACE,
-        RBRACE,
+        TOKEN_NUMBER,
+        TOKEN_IDENTIFIER,
+        TOKEN_PLUS,
+        TOKEN_MINUS,
+        TOKEN_MULTIPLY,
+        TOKEN_DIVIDE,
+        TOKEN_CARET,
+        TOKEN_LPAREN,
+        TOKEN_RPAREN,
+        TOKEN_COMMA,
+        TOKEN_EQUALS,
+        TOKEN_LESS,
+        TOKEN_GREATER,
+        TOKEN_LESS_EQUAL,
+        TOKEN_GREATER_EQUAL,
+        TOKEN_LBRACE,
+        TOKEN_RBRACE,
         EOF
     }
 
@@ -52,7 +52,7 @@ module Garlic {
             while (true) {
                 var token = nextToken();
                 tokens.add(token);
-                if (token.type == TokenType.EOF) {
+                if (token.type == EOF) {
                     break;
                 }
             }
@@ -63,7 +63,7 @@ module Garlic {
             skipWhitespace();
 
             if (self.index >= self.input.length()) {
-                return new Token(TokenType.EOF, "", self.index);
+                return new Token(TOKEN_EOF, "", self.index);
             }
 
             var start = self.index;
@@ -81,55 +81,55 @@ module Garlic {
 
             if (c == "+") {
 
-                return new Token(TokenType.PLUS, "+", start);
+                return new Token(TOKEN_PLUS, "+", start);
 
             }
             if (c == "-") {
-                return new Token(TokenType.MINUS, "-", start);
+                return new Token(TOKEN_MINUS, "-", start);
             }
             if (c == "*") {
-                return new Token(TokenType.MULTIPLY, "*", start);
+                return new Token(TOKEN_MULTIPLY, "*", start);
             }
             if (c == "/") {
-                return new Token(TokenType.DIVIDE, "/", start);
+                return new Token(TOKEN_DIVIDE, "/", start);
             }
             if (c == "^") {
-                return new Token(TokenType.CARET, "^", start);
+                return new Token(TOKEN_CARET, "^", start);
             }
             if (c == "(") {
-                return new Token(TokenType.LPAREN, "(", start);
+                return new Token(TOKEN_LPAREN, "(", start);
             }
             if (c == ")") {
-                return new Token(TokenType.RPAREN, ")", start);
+                return new Token(TOKEN_RPAREN, ")", start);
             }
             if (c == ",") {
-                return new Token(TokenType.COMMA, ",", start);
+                return new Token(TOKEN_COMMA, ",", start);
             }
             if (c == "=") {
-                return new Token(TokenType.EQUALS, "=", start);
+                return new Token(TOKEN_EQUALS, "=", start);
             }
 
             if (c == "<") {
                 if (peek("=")) {
                     self.index += 1;
-                    return new Token(TokenType.LESS_EQUAL, "<=", start);
+                    return new Token(TOKEN_LESS_EQUAL, "<=", start);
                 }
-                return new Token(TokenType.LESS, "<", start);
+                return new Token(TOKEN_LESS, "<", start);
             }
 
             if (c == ">") {
                 if (peek("=")) {
                     self.index += 1;
-                    return new Token(TokenType.GREATER_EQUAL, ">=", start);
+                    return new Token(TOKEN_GREATER_EQUAL, ">=", start);
                 }
-                return new Token(TokenType.GREATER, ">", start);
+                return new Token(TOKEN_GREATER, ">", start);
             }
 
             if (c == "{") {
-                return new Token(TokenType.LBRACE, "{", start);
+                return new Token(TOKEN_LBRACE, "{", start);
             }
             if (c == "}") {
-                return new Token(TokenType.RBRACE, "}", start);
+                return new Token(TOKEN_RBRACE, "}", start);
             }
 
             throw new ParserError("Unexpected character '" + c + "'", start);
@@ -190,7 +190,7 @@ module Garlic {
                 }
             }
 
-            return new Token(TokenType.NUMBER, self.input.substring(start, self.index), start);
+            return new Token(TOKEN_NUMBER, self.input.substring(start, self.index), start);
         }
 
         function readIdentifier() {
@@ -201,7 +201,7 @@ module Garlic {
                 self.index += 1;
             }
 
-            return new Token(TokenType.IDENTIFIER, self.input.substring(start, self.index), start);
+            return new Token(TOKEN_IDENTIFIER, self.input.substring(start, self.index), start);
         }
 
         function peek(expected) {
