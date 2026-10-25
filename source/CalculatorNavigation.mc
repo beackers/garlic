@@ -38,15 +38,12 @@ module Garlic {
         }
 
         function swipeDown() {
-            // The editor delegate should insert a blank statement after the
-            // current one, then keep the new statement selected.
-            if (screen == CalculatorScreen.EDITOR) {
-                expressionIndex += 1;
+            if (screen == CalculatorScreen.EXPRESSIONS) {
+                screen = CalculatorScreen.EDITOR;
                 return "new_expression";
             }
 
-            if (screen == CalculatorScreen.EXPRESSIONS) {
-                screen = CalculatorScreen.EDITOR;
+            if (screen == CalculatorScreen.EDITOR) {
                 return "new_expression";
             }
 
