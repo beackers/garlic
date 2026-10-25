@@ -19,22 +19,14 @@ module Garlic {
 
         function onLayout(dc) {
             self.dc = dc;
-            loadKeyboardLayout();
-            refreshText();
+            // The editor is drawn directly in onUpdate().
+            // Keeping the resource layout out of the editor avoids
+            // fighting the custom renderer for dynamic keyboard pages.
+            setLayout(null);
         }
 
         function loadKeyboardLayout() {
-            if (navigation.keyboardPage == PAGE_NUMBERS) {
-                setLayout(Rez.Layouts.NumbersLayout(self.dc));
-            } else if (navigation.keyboardPage == PAGE_LETTERS) {
-                setLayout(Rez.Layouts.LettersLayout(self.dc));
-            } else if (navigation.keyboardPage == PAGE_OPERATORS) {
-                setLayout(Rez.Layouts.OperatorsLayout(self.dc));
-            } else if (navigation.keyboardPage == PAGE_FUNCTIONS) {
-                setLayout(Rez.Layouts.FunctionsLayout(self.dc));
-            } else {
-                setLayout(Rez.Layouts.SpecialLayout(self.dc));
-            }
+            // Editor rendering is handled directly by onUpdate().
         }
 
         function insert(text) {
@@ -145,49 +137,166 @@ module Garlic {
         }
 
         function onUpdate(dc) {
-            if (navigation.screen == SCREEN_EDITOR) {
-                return;
-            }
-
             dc.clear();
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
 
-            if (navigation.screen == SCREEN_EXPRESSIONS) {
-                dc.drawText(195, 24, Graphics.FONT_LARGE, "Expressions",
-                    Graphics.TEXT_JUSTIFY_CENTER);
-
-                var i = 0;
-                while (i < expressions.size()) {
-                    var prefix = (i == navigation.expressionIndex) ? "> " : "  ";
-                    var text = prefix + (expressions[i] == "" ? "_" : expressions[i]);
-                    dc.drawText(28, 72 + (i * 34), Graphics.FONT_SMALL, text,
-                        Graphics.TEXT_JUSTIFY_LEFT);
-                    i += 1;
-                }
-
-                dc.drawText(195, 350, Graphics.FONT_XTINY,
-                    "↑ edit   ↓ new   START graph   BACK edit",
-                    Graphics.TEXT_JUSTIFY_CENTER);
+            if (navigation.screen == SCREEN_EDITOR) {
+                drawEditor(dc);
                 return;
             }
 
-            // Rudimentary graph screen: draw axes and a harmless preview curve.
-            // Real expression evaluation/plotting will replace this later.
-            dc.drawText(195, 20, Graphics.FONT_SMALL, "Graph",
+            if (navigation.screen == SCREEN_EXPRESSIONS) {
+                drawExpressions(dc);
+                return;
+            }
+
+            drawGraph(dc);
+        }
+
+        function drawEditor(dc) {
+            var width = dc.getWidth();
+            var center = (width / 2).toNumber();
+
+            dc.drawText(center, 12, Graphics.FONT_XTINY, modeText(),
                 Graphics.TEXT_JUSTIFY_CENTER);
-            dc.drawText(195, 48, Graphics.FONT_SMALL,
+
+            if (navigation.expressionIndex > 0) {
+                dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+                dc.drawText(18, 30, Graphics.FONT_XTINY,
+                    expressions[navigation.expressionIndex - 1],
+                    Graphics.TEXT_JUSTIFY_LEFT);
+                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            }
+
+            // Expression field.
+            dc.drawRoundedRectangle(12, 48, width - 24, 48, 7);
+            var shown = expression == "" ? "_" : expression;
+            dc.drawText(22, 61, Graphics.FONT_LARGE, shown,
+                Graphics.TEXT_JUSTIFY_LEFT);
+
+            // Cursor is intentionally simple for now. A proper text cursor
+            // will come with horizontal scrolling/editing.
+            var cursorText = shown;
+            if (cursor <= expression.length()) {
+                var prefix = expression.substring(0, cursor);
+                var cursorX = 22 + dc.getTextWidthInPixels(prefix, Graphics.FONT_LARGE);
+                dc.drawLine(cursorX, 58, cursorX, 89);
+            }
+
+            // Top command row.
+            drawKey(dc, 12, 104, 68, 30, "CLR");
+            drawKey(dc, 86, 104, 68, 30, "DEL");
+            drawKey(dc, 160, 104, 68, 30, "(");
+            drawKey(dc, 234, 104, 68, 30, ")");
+            drawKey(dc, 308, 104, 68, 30, "=");
+
+            if (navigation.keyboardPage == PAGE_NUMBERS) {
+                drawGrid(dc, [
+                    ["7","8","9","/","^"],
+                    ["4","5","6","*","-"],
+                    ["1","2","3","+"," ,"],
+                    ["0",".","x","y","pi"]
+                ]);
+            } else {
+                drawKeyboardPage(dc);
+            }
+
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+            dc.drawText(center, 360, Graphics.FONT_XTINY,
+                pageText() + "   swipe pages   START graph",
+                Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        function drawKey(dc, x, y, w, h, label) {
+            dc.drawRoundedRectangle(x, y, w, h, 6);
+            dc.drawText(x + (w / 2).toNumber(), y + 7,
+                Graphics.FONT_SMALL, label, Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        function drawGrid(dc, rows) {
+            var x0 = 12;
+            var y0 = 140;
+            var w = 68;
+            var h = 48;
+            var gap = 6;
+            var row = 0;
+
+            while (row < rows.size()) {
+                var col = 0;
+                while (col < rows[row].size()) {
+                    drawKey(dc, x0 + col * (w + gap),
+                        y0 + row * (h + gap), w, h, rows[row][col]);
+                    col += 1;
+                }
+                row += 1;
+            }
+        }
+
+        function drawKeyboardPage(dc) {
+            var keys = KeyboardPages.keys(navigation.keyboardPage);
+            var rows = [];
+            var row = [];
+            var i = 0;
+
+            while (i < keys.size()) {
+                row.add(keys[i].label);
+                if (row.size() == 5) {
+                    rows.add(row);
+                    row = [];
+                }
+                i += 1;
+            }
+
+            if (row.size() > 0) {
+                while (row.size() < 5) {
+                    row.add("");
+                }
+                rows.add(row);
+            }
+
+            drawGrid(dc, rows);
+        }
+
+        function drawExpressions(dc) {
+            var width = dc.getWidth();
+            var center = (width / 2).toNumber();
+
+            dc.drawText(center, 24, Graphics.FONT_LARGE, "Expressions",
+                Graphics.TEXT_JUSTIFY_CENTER);
+
+            var i = 0;
+            while (i < expressions.size()) {
+                var prefix = (i == navigation.expressionIndex) ? "> " : "  ";
+                var text = prefix + (expressions[i] == "" ? "_" : expressions[i]);
+                dc.drawText(18, 72 + (i * 34), Graphics.FONT_SMALL, text,
+                    Graphics.TEXT_JUSTIFY_LEFT);
+                i += 1;
+            }
+
+            dc.drawText(center, 350, Graphics.FONT_XTINY,
+                "UP edit   DOWN new   START graph   BACK edit",
+                Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        function drawGraph(dc) {
+            var width = dc.getWidth();
+            var center = (width / 2).toNumber();
+
+            dc.drawText(center, 20, Graphics.FONT_SMALL, "Graph",
+                Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(center, 48, Graphics.FONT_SMALL,
                 expression == "" ? "No expression" : expression,
                 Graphics.TEXT_JUSTIFY_CENTER);
 
             dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-            dc.drawLine(195, 82, 195, 330);
-            dc.drawLine(42, 206, 348, 206);
+            dc.drawLine(center, 82, center, 330);
+            dc.drawLine(42, 206, width - 42, 206);
 
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
             var x = 45;
             var lastY = 206;
-            while (x <= 345) {
-                var dx = (x - 195).toFloat() / 55.0;
+            while (x <= width - 45) {
+                var dx = (x - center).toFloat() / 55.0;
                 var y = 206 - (dx * dx * 22.0);
                 if (x > 45) {
                     dc.drawLine(x - 1, lastY, x, y.toNumber());
@@ -196,7 +305,7 @@ module Garlic {
                 x += 3;
             }
 
-            dc.drawText(195, 350, Graphics.FONT_XTINY,
+            dc.drawText(center, 350, Graphics.FONT_XTINY,
                 "BACK edit   START/SELECT",
                 Graphics.TEXT_JUSTIFY_CENTER);
         }
