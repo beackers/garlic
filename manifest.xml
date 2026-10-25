@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <iq:manifest version="3" xmlns:iq="http://www.garmin.com/xml/connectiq">
     <iq:application
-        id="beackers.garlic"
+        id="8f4c2a71-6d3b-4e95-a1c7-5b9d2f38e604"
         type="watch-app"
         name="@Strings.AppName"
         entry="Garlic.GarlicApp"
