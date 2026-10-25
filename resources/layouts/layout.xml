@@ -3,154 +3,120 @@
     xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
 
     <!--
-        Garlic's main statement-entry screen.
-        Target: vívoactive 5 (390x390, round AMOLED).
+        Garlic editor shell for a 390x390 round display.
 
-        The top portion is deliberately kept separate from the keyboard so the
-        expression can eventually grow to multiple lines without changing the
-        keyboard geometry.
+        The expression area is identical on every keyboard page.  The page
+        layouts below deliberately use the same button IDs/geometry so the
+        delegate can swap layouts without changing editor logic.
+
+        Page order:
+          Numbers -> Letters -> Operators -> Functions -> Special -> Numbers
     -->
-    <layout id="MainLayout">
 
-        <!-- Statement / expression area -->
-        <label id="HistoryLabel"
-            x="center"
-            y="22"
-            text="2x + 1 = 7"
-            font="Graphics.FONT_SMALL"
-            justification="Graphics.TEXT_JUSTIFY_CENTER"
+    <!-- ==================== NUMBERS ==================== -->
+    <layout id="NumbersLayout">
+        <label id="HistoryLabel" x="center" y="18" text="2x + 1 = 7"
+            font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER"
             color="Graphics.COLOR_DK_GRAY" />
-
-        <label id="ExpressionLabel"
-            x="center"
-            y="58"
-            text="2x + 1"
-            font="Graphics.FONT_LARGE"
-            justification="Graphics.TEXT_JUSTIFY_CENTER"
+        <label id="ExpressionLabel" x="center" y="50" text="2x + 1"
+            font="Graphics.FONT_LARGE" justification="Graphics.TEXT_JUSTIFY_CENTER"
             color="Graphics.COLOR_WHITE" />
-
-        <!-- Cursor placeholder; the input code can eventually move this. -->
-        <label id="CursorLabel"
-            x="center"
-            y="91"
-            text="_"
-            font="Graphics.FONT_SMALL"
-            justification="Graphics.TEXT_JUSTIFY_CENTER"
+        <label id="CursorLabel" x="center" y="84" text="_"
+            font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER"
             color="Graphics.COLOR_WHITE" />
-
-        <!-- Small status/mode line -->
-        <label id="ModeLabel"
-            x="center"
-            y="112"
-            text="Expression"
-            font="Graphics.FONT_XTINY"
-            justification="Graphics.TEXT_JUSTIFY_CENTER"
+        <label id="ModeLabel" x="center" y="105" text="Numbers • 1/5"
+            font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER"
             color="Graphics.COLOR_LT_GRAY" />
 
-        <!-- Keyboard buttons.
-             The labels are separate drawables so the same button hit regions
-             can later be reused with dynamically rendered keycaps. -->
+        <button id="KeyClear" x="36" y="128" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
+        <label x="61" y="147" text="C" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyBackspace" x="88" y="128" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
+        <label x="113" y="147" text="DEL" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyLeftParen" x="140" y="128" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
+        <label x="165" y="147" text="(" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyRightParen" x="192" y="128" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
+        <label x="217" y="147" text=")" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyEnter" x="244" y="128" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
+        <label x="269" y="147" text="=" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
 
-        <!-- Row 1: editing / structural keys -->
-        <button id="KeyClear" x="36" y="136" width="50" height="38" background="Graphics.COLOR_DK_GRAY">
-            <state id="stateDefault" color="Graphics.COLOR_DK_GRAY" />
-            <state id="stateHighlighted" color="Graphics.COLOR_GRAY" />
-            <state id="stateSelected" color="Graphics.COLOR_GRAY" />
-            <state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" />
-        </button>
-        <label x="61" y="155" text="C" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key7" x="36" y="170" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="61" y="189" text="7" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key8" x="88" y="170" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="113" y="189" text="8" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key9" x="140" y="170" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="165" y="189" text="9" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyDivide" x="192" y="170" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="217" y="189" text="/" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyPower" x="244" y="170" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="269" y="189" text="^" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
 
-        <button id="KeyBackspace" x="88" y="136" width="50" height="38" background="Graphics.COLOR_DK_GRAY">
-            <state id="stateDefault" color="Graphics.COLOR_DK_GRAY" />
-            <state id="stateHighlighted" color="Graphics.COLOR_GRAY" />
-            <state id="stateSelected" color="Graphics.COLOR_GRAY" />
-            <state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" />
-        </button>
-        <label x="113" y="155" text="DEL" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key4" x="36" y="212" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="61" y="231" text="4" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key5" x="88" y="212" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="113" y="231" text="5" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key6" x="140" y="212" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="165" y="231" text="6" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyMultiply" x="192" y="212" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="217" y="231" text="*" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyMinus" x="244" y="212" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="269" y="231" text="-" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
 
-        <button id="KeyLeftParen" x="140" y="136" width="50" height="38" background="Graphics.COLOR_DK_GRAY">
-            <state id="stateDefault" color="Graphics.COLOR_DK_GRAY" />
-            <state id="stateHighlighted" color="Graphics.COLOR_GRAY" />
-            <state id="stateSelected" color="Graphics.COLOR_GRAY" />
-            <state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" />
-        </button>
-        <label x="165" y="155" text="(" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key1" x="36" y="254" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="61" y="273" text="1" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key2" x="88" y="254" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="113" y="273" text="2" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key3" x="140" y="254" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.GRAY" /><state id="stateSelected" color="Graphics.GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="165" y="273" text="3" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyPlus" x="192" y="254" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="217" y="273" text="+" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyComma" x="244" y="254" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="269" y="273" text="," font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
 
-        <button id="KeyRightParen" x="192" y="136" width="50" height="38" background="Graphics.COLOR_DK_GRAY">
-            <state id="stateDefault" color="Graphics.COLOR_DK_GRAY" />
-            <state id="stateHighlighted" color="Graphics.COLOR_GRAY" />
-            <state id="stateSelected" color="Graphics.COLOR_GRAY" />
-            <state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" />
-        </button>
-        <label x="217" y="155" text=")" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="Key0" x="36" y="296" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="61" y="315" text="0" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyDecimal" x="88" y="296" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="113" y="315" text="." font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyX" x="140" y="296" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="165" y="315" text="x" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyY" x="192" y="296" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="217" y="315" text="y" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <button id="KeyPi" x="244" y="296" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button><label x="269" y="315" text="π" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
 
-        <button id="KeyEnter" x="244" y="136" width="50" height="38" background="Graphics.COLOR_DK_GRAY">
-            <state id="stateDefault" color="Graphics.COLOR_DK_GRAY" />
-            <state id="stateHighlighted" color="Graphics.COLOR_GRAY" />
-            <state id="stateSelected" color="Graphics.COLOR_GRAY" />
-            <state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" />
-        </button>
-        <label x="269" y="155" text="=" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="PageHint" x="center" y="355" text="← 1/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+    </layout>
 
-        <!-- Row 2: numbers -->
-        <button id="Key7" x="36" y="178" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="61" y="197" text="7" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="Key8" x="88" y="178" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="113" y="197" text="8" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="Key9" x="140" y="178" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="165" y="197" text="9" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyDivide" x="192" y="178" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="217" y="197" text="/" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyPower" x="244" y="178" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="269" y="197" text="^" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+    <!-- The remaining layouts intentionally share the editor header and key
+         geometry.  They are populated by the same delegate/key semantics. -->
+    <layout id="LettersLayout">
+        <label id="HistoryLabel" x="center" y="18" text="2x + 1 = 7" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_DK_GRAY" />
+        <label id="ExpressionLabel" x="center" y="50" text="2x + 1" font="Graphics.FONT_LARGE" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="CursorLabel" x="center" y="84" text="_" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="ModeLabel" x="center" y="105" text="Letters • 2/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label x="center" y="145" text="ABC   DEF   GHI" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="187" text="JKL   MNO   PQRS" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="229" text="TUV   WXYZ   _" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="271" text="x     y     n     f" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="313" text="g     h     t     a" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="PageHint" x="center" y="355" text="← 2/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+    </layout>
 
-        <!-- Row 3 -->
-        <button id="Key4" x="36" y="220" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="61" y="239" text="4" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="Key5" x="88" y="220" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="113" y="239" text="5" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="Key6" x="140" y="220" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="165" y="239" text="6" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyMultiply" x="192" y="220" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="217" y="239" text="*" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyMinus" x="244" y="220" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="269" y="239" text="-" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+    <layout id="OperatorsLayout">
+        <label id="HistoryLabel" x="center" y="18" text="2x + 1 = 7" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_DK_GRAY" />
+        <label id="ExpressionLabel" x="center" y="50" text="2x + 1" font="Graphics.FONT_LARGE" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="CursorLabel" x="center" y="84" text="_" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="ModeLabel" x="center" y="105" text="Operators • 3/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label x="center" y="145" text="+   −   ×   ÷   ^" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="187" text="=   <   >   ≤   ≥" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="229" text="(   )   {   }   ," font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="271" text="%   !   and   or" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="313" text="     :     " font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="PageHint" x="center" y="355" text="← 3/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+    </layout>
 
-        <!-- Row 4 -->
-        <button id="Key1" x="36" y="262" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="61" y="281" text="1" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="Key2" x="88" y="262" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="113" y="281" text="2" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="Key3" x="140" y="262" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="165" y="281" text="3" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyPlus" x="192" y="262" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="217" y="281" text="+" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyComma" x="244" y="262" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="269" y="281" text="," font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+    <layout id="FunctionsLayout">
+        <label id="HistoryLabel" x="center" y="18" text="2x + 1 = 7" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_DK_GRAY" />
+        <label id="ExpressionLabel" x="center" y="50" text="2x + 1" font="Graphics.FONT_LARGE" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="CursorLabel" x="center" y="84" text="_" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="ModeLabel" x="center" y="105" text="Functions • 4/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label x="center" y="145" text="sin   cos   tan" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="187" text="asin  acos  atan" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="229" text="ln    log   exp" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="271" text="sqrt  abs   floor" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="313" text="ceil  round min max" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="PageHint" x="center" y="355" text="← 4/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+    </layout>
 
-        <!-- Row 5: common variables/constants -->
-        <button id="Key0" x="36" y="304" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="61" y="323" text="0" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyDecimal" x="88" y="304" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="113" y="323" text="." font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyX" x="140" y="304" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="165" y="323" text="x" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyY" x="192" y="304" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="217" y="323" text="y" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyPi" x="244" y="304" width="50" height="38"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="269" y="323" text="pi" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-
-        <!-- Row 6: function strip -->
-        <button id="KeySin" x="36" y="346" width="50" height="32"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="61" y="362" text="sin" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyCos" x="88" y="346" width="50" height="32"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="113" y="362" text="cos" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyTan" x="140" y="346" width="50" height="32"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="165" y="362" text="tan" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeySqrt" x="192" y="346" width="50" height="32"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="217" y="362" text="sqrt" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-        <button id="KeyLn" x="244" y="346" width="50" height="32"><state id="stateDefault" color="Graphics.COLOR_DK_GRAY" /><state id="stateHighlighted" color="Graphics.COLOR_GRAY" /><state id="stateSelected" color="Graphics.COLOR_GRAY" /><state id="stateDisabled" color="Graphics.COLOR_DK_GRAY" /></button>
-        <label x="269" y="362" text="ln" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-
+    <layout id="SpecialLayout">
+        <label id="HistoryLabel" x="center" y="18" text="2x + 1 = 7" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_DK_GRAY" />
+        <label id="ExpressionLabel" x="center" y="50" text="2x + 1" font="Graphics.FONT_LARGE" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="CursorLabel" x="center" y="84" text="_" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label id="ModeLabel" x="center" y="105" text="Special • 5/5" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label x="center" y="145" text="π     e     τ" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="187" text="∞     °     ;" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="229" text="[     ]     {" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="271" text="}     '     "" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+        <label x="center" y="313" text="constants / syntax" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
+        <label id="PageHint" x="center" y="355" text="← 5/5 →" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_LT_GRAY" />
     </layout>
 </resources>
