@@ -27,12 +27,16 @@ module Garlic {
         }
 
         static function next(page) {
-            if (page == KeyboardPage.SPECIAL) return KeyboardPage.NUMBERS;
+            if (page == KeyboardPage.SPECIAL) {
+                return KeyboardPage.NUMBERS;
+            }
             return page + 1;
         }
 
         static function previous(page) {
-            if (page == KeyboardPage.NUMBERS) return KeyboardPage.SPECIAL;
+            if (page == KeyboardPage.NUMBERS) {
+                return KeyboardPage.SPECIAL;
+            }
             return page - 1;
         }
 
@@ -144,7 +148,7 @@ module Garlic {
                 new KeyboardKey("[", "[", "insert"),
                 new KeyboardKey("]", "]", "insert"),
                 new KeyboardKey("'", "'", "insert"),
-                new KeyboardKey(""", """, "insert")
+                new KeyboardKey("quote", "\"", "insert")
             ];
         }
     }
