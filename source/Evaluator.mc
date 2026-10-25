@@ -31,11 +31,11 @@ module Garlic {
         }
 
         function evaluate(node) {
-            if (node.type == NodeType.NUMBER) {
+            if (node.type == NUMBER) {
                 return node.value;
             }
 
-            if (node.type == NodeType.CONSTANT) {
+            if (node.type == CONSTANT) {
                 if (node.name == "pi") {
                     return Math.PI;
                 }
@@ -45,45 +45,45 @@ module Garlic {
                 throw new ParserError("Unknown constant '" + node.name + "'", 0);
             }
 
-            if (node.type == NodeType.VARIABLE) {
+            if (node.type == VARIABLE) {
                 if (!environment.hasVariable(node.name)) {
                     throw new ParserError("Undefined variable '" + node.name + "'", 0);
                 }
                 return environment.getVariable(node.name);
             }
 
-            if (node.type == NodeType.UNARY) {
+            if (node.type == UNARY) {
                 var value = evaluate(node.operand);
-                if (node.operator == UnaryOperator.NEGATE) {
+                if (node.operator == NEGATE) {
                     return -value;
                 }
                 return value;
             }
 
-            if (node.type == NodeType.BINARY) {
+            if (node.type == BINARY) {
                 var left = evaluate(node.left);
                 var right = evaluate(node.right);
 
-                if (node.operator == BinaryOperator.ADD) {
+                if (node.operator == ADD) {
 
                     return left + right;
 
                 }
-                if (node.operator == BinaryOperator.SUBTRACT) {
+                if (node.operator == SUBTRACT) {
                     return left - right;
                 }
-                if (node.operator == BinaryOperator.MULTIPLY) {
+                if (node.operator == MULTIPLY) {
                     return left * right;
                 }
-                if (node.operator == BinaryOperator.DIVIDE) {
+                if (node.operator == DIVIDE) {
                     return left / right;
                 }
-                if (node.operator == BinaryOperator.POWER) {
+                if (node.operator == POWER) {
                     return Math.pow(left, right);
                 }
             }
 
-            if (node.type == NodeType.FUNCTION_CALL) {
+            if (node.type == FUNCTION_CALL) {
                 return evaluateFunction(node.name, node.arguments);
             }
 
