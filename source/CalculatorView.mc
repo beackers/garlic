@@ -24,13 +24,13 @@ module Garlic {
         }
 
         function loadKeyboardLayout(dc) {
-            if (navigation.keyboardPage == NUMBERS) {
+            if (navigation.keyboardPage == PAGE_NUMBERS) {
                 setLayout(Rez.Layouts.NumbersLayout(dc));
-            } else if (navigation.keyboardPage == LETTERS) {
+            } else if (navigation.keyboardPage == PAGE_LETTERS) {
                 setLayout(Rez.Layouts.LettersLayout(dc));
-            } else if (navigation.keyboardPage == OPERATORS) {
+            } else if (navigation.keyboardPage == PAGE_OPERATORS) {
                 setLayout(Rez.Layouts.OperatorsLayout(dc));
-            } else if (navigation.keyboardPage == FUNCTIONS) {
+            } else if (navigation.keyboardPage == PAGE_FUNCTIONS) {
                 setLayout(Rez.Layouts.FunctionsLayout(dc));
             } else {
                 setLayout(Rez.Layouts.SpecialLayout(dc));
@@ -69,7 +69,7 @@ module Garlic {
             navigation.expressionIndex = newIndex;
             expression = "";
             cursor = 0;
-            navigation.screen = EDITOR;
+            navigation.screen = SCREEN_EDITOR;
             refreshText();
         }
 
@@ -107,52 +107,52 @@ module Garlic {
         }
 
         function modeText() {
-            if (navigation.screen == EXPRESSIONS) {
+            if (navigation.screen == SCREEN_EXPRESSIONS) {
                 return "Expressions";
             }
-            if (navigation.screen == GRAPH) {
+            if (navigation.screen == SCREEN_GRAPH) {
                 return "Graph";
             }
-            if (navigation.keyboardPage == NUMBERS) {
+            if (navigation.keyboardPage == PAGE_NUMBERS) {
                 return "Numbers";
             }
-            if (navigation.keyboardPage == LETTERS) {
+            if (navigation.keyboardPage == PAGE_LETTERS) {
                 return "Letters";
             }
-            if (navigation.keyboardPage == OPERATORS) {
+            if (navigation.keyboardPage == PAGE_OPERATORS) {
                 return "Operators";
             }
-            if (navigation.keyboardPage == FUNCTIONS) {
+            if (navigation.keyboardPage == PAGE_FUNCTIONS) {
                 return "Functions";
             }
             return "Special";
         }
 
         function pageText() {
-            if (navigation.keyboardPage == NUMBERS) {
+            if (navigation.keyboardPage == PAGE_NUMBERS) {
                 return "← 1/5 →";
             }
-            if (navigation.keyboardPage == LETTERS) {
+            if (navigation.keyboardPage == PAGE_LETTERS) {
                 return "← 2/5 →";
             }
-            if (navigation.keyboardPage == OPERATORS) {
+            if (navigation.keyboardPage == PAGE_OPERATORS) {
                 return "← 3/5 →";
             }
-            if (navigation.keyboardPage == FUNCTIONS) {
+            if (navigation.keyboardPage == PAGE_FUNCTIONS) {
                 return "← 4/5 →";
             }
             return "← 5/5 →";
         }
 
         function onUpdate(dc) {
-            if (navigation.screen == EDITOR) {
+            if (navigation.screen == SCREEN_EDITOR) {
                 return;
             }
 
             dc.clear();
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
 
-            if (navigation.screen == EXPRESSIONS) {
+            if (navigation.screen == SCREEN_EXPRESSIONS) {
                 dc.drawText(195, 24, Graphics.FONT_LARGE, "Expressions",
                     Graphics.TEXT_JUSTIFY_CENTER);
 
@@ -173,7 +173,7 @@ module Garlic {
 
             // Rudimentary graph screen: draw axes and a harmless preview curve.
             // Real expression evaluation/plotting will replace this later.
-            dc.drawText(195, 20, Graphics.FONT_SMALL, "GRAPH",
+            dc.drawText(195, 20, Graphics.FONT_SMALL, "SCREEN_GRAPH",
                 Graphics.TEXT_JUSTIFY_CENTER);
             dc.drawText(195, 48, Graphics.FONT_SMALL,
                 expression == "" ? "No expression" : expression,
@@ -202,11 +202,11 @@ module Garlic {
         }
 
         function handleTap(x, y) {
-            if (navigation.screen != EDITOR) {
+            if (navigation.screen != SCREEN_EDITOR) {
                 return;
             }
 
-            if (navigation.keyboardPage == NUMBERS) {
+            if (navigation.keyboardPage == PAGE_NUMBERS) {
                 if (y >= 128 && y < 166 && x >= 36 && x < 294) {
                     var col = ((x - 36) / 52).toNumber();
                     if (col == 0) {
@@ -248,7 +248,7 @@ module Garlic {
             var row;
             var col;
 
-            if (navigation.keyboardPage == LETTERS) {
+            if (navigation.keyboardPage == PAGE_LETTERS) {
                 if (y < 128 || y >= 334 || x < 36 || x >= 294) {
                     return null;
                 }
@@ -298,7 +298,7 @@ module Garlic {
         }
 
         function handleBack() {
-            if (navigation.screen == EDITOR) {
+            if (navigation.screen == SCREEN_EDITOR) {
                 if (cursor > 0) {
                     backspace();
                 } else if (navigation.expressionIndex > 0) {
