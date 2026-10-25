@@ -219,20 +219,40 @@ module Garlic {
         }
 
         function explicitBinaryOperator(token) {
-            if (token.type == TokenType.PLUS) return BinaryOperator.ADD;
-            if (token.type == TokenType.MINUS) return BinaryOperator.SUBTRACT;
-            if (token.type == TokenType.MULTIPLY) return BinaryOperator.MULTIPLY;
-            if (token.type == TokenType.DIVIDE) return BinaryOperator.DIVIDE;
-            if (token.type == TokenType.CARET) return BinaryOperator.POWER;
+            if (token.type == TokenType.PLUS) {
+                return BinaryOperator.ADD;
+            }
+            if (token.type == TokenType.MINUS) {
+                return BinaryOperator.SUBTRACT;
+            }
+            if (token.type == TokenType.MULTIPLY) {
+                return BinaryOperator.MULTIPLY;
+            }
+            if (token.type == TokenType.DIVIDE) {
+                return BinaryOperator.DIVIDE;
+            }
+            if (token.type == TokenType.CARET) {
+                return BinaryOperator.POWER;
+            }
             return null;
         }
 
         function relationOperator(token) {
-            if (token.type == TokenType.EQUALS) return RelationOperator.EQUALS;
-            if (token.type == TokenType.LESS) return RelationOperator.LESS;
-            if (token.type == TokenType.GREATER) return RelationOperator.GREATER;
-            if (token.type == TokenType.LESS_EQUAL) return RelationOperator.LESS_EQUAL;
-            if (token.type == TokenType.GREATER_EQUAL) return RelationOperator.GREATER_EQUAL;
+            if (token.type == TokenType.EQUALS) {
+                return RelationOperator.EQUALS;
+            }
+            if (token.type == TokenType.LESS) {
+                return RelationOperator.LESS;
+            }
+            if (token.type == TokenType.GREATER) {
+                return RelationOperator.GREATER;
+            }
+            if (token.type == TokenType.LESS_EQUAL) {
+                return RelationOperator.LESS_EQUAL;
+            }
+            if (token.type == TokenType.GREATER_EQUAL) {
+                return RelationOperator.GREATER_EQUAL;
+            }
             return null;
         }
 
@@ -241,9 +261,15 @@ module Garlic {
         }
 
         function precedenceOf(operator) {
-            if (operator == BinaryOperator.ADD || operator == BinaryOperator.SUBTRACT) return 10;
-            if (operator == BinaryOperator.MULTIPLY || operator == BinaryOperator.DIVIDE) return 20;
-            if (operator == BinaryOperator.POWER) return 30;
+            if (operator == BinaryOperator.ADD || operator == BinaryOperator.SUBTRACT) {
+                return 10;
+            }
+            if (operator == BinaryOperator.MULTIPLY || operator == BinaryOperator.DIVIDE) {
+                return 20;
+            }
+            if (operator == BinaryOperator.POWER) {
+                return 30;
+            }
             return -1;
         }
 
@@ -254,9 +280,15 @@ module Garlic {
         }
 
         function isFunctionDefinitionStart() {
-            if (current().type != TokenType.IDENTIFIER) return false;
-            if (self.index + 1 >= self.tokens.size()) return false;
-            if (self.tokens[self.index + 1].type != TokenType.LPAREN) return false;
+            if (current().type != TokenType.IDENTIFIER) {
+                return false;
+            }
+            if (self.index + 1 >= self.tokens.size()) {
+                return false;
+            }
+            if (self.tokens[self.index + 1].type != TokenType.LPAREN) {
+                return false;
+            }
 
             var i = self.index + 2;
             if (self.tokens[i].type == TokenType.RPAREN) {
@@ -265,7 +297,9 @@ module Garlic {
             }
 
             while (i < self.tokens.size()) {
-                if (self.tokens[i].type != TokenType.IDENTIFIER) return false;
+                if (self.tokens[i].type != TokenType.IDENTIFIER) {
+                    return false;
+                }
                 i += 1;
 
                 if (self.tokens[i].type == TokenType.RPAREN) {
@@ -273,7 +307,11 @@ module Garlic {
                            self.tokens[i + 1].type == TokenType.EQUALS;
                 }
 
-                if (self.tokens[i].type != TokenType.COMMA) return false;
+                if (self.tokens[i].type != TokenType.COMMA) {
+
+                    return false;
+
+                }
                 i += 1;
             }
 
@@ -315,7 +353,9 @@ module Garlic {
         }
 
         function match(type) {
-            if (!check(type)) return false;
+            if (!check(type)) {
+                return false;
+            }
             advance();
             return true;
         }
