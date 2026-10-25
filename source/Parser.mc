@@ -225,7 +225,7 @@ module Garlic {
             if (token.type == TOKEN_MINUS) {
                 return BINARY_SUBTRACT;
             }
-            if (token.type == BINARY_MULTIPLY) {
+            if (token.type == TOKEN_MULTIPLY) {
                 return BINARY_MULTIPLY;
             }
             if (token.type == BINARY_DIVIDE) {
@@ -239,19 +239,19 @@ module Garlic {
 
         function relationOperator(token) {
             if (token.type == TOKEN_EQUALS) {
-                return TOKEN_EQUALS;
+                return REL_EQUALS;
             }
             if (token.type == TOKEN_LESS) {
-                return TOKEN_LESS;
+                return REL_LESS;
             }
             if (token.type == TOKEN_GREATER) {
-                return TOKEN_GREATER;
+                return REL_GREATER;
             }
             if (token.type == TOKEN_LESS_EQUAL) {
-                return TOKEN_LESS_EQUAL;
+                return REL_LESS_EQUAL;
             }
             if (token.type == TOKEN_GREATER_EQUAL) {
-                return TOKEN_GREATER_EQUAL;
+                return REL_GREATER_EQUAL;
             }
             return null;
         }
