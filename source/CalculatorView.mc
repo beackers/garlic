@@ -97,20 +97,40 @@ module Garlic {
         }
 
         function modeText() {
-            if (navigation.screen == CalculatorScreen.EXPRESSIONS) return "Expressions";
-            if (navigation.screen == CalculatorScreen.GRAPH) return "Graph";
-            if (navigation.keyboardPage == KeyboardPage.NUMBERS) return "Numbers";
-            if (navigation.keyboardPage == KeyboardPage.LETTERS) return "Letters";
-            if (navigation.keyboardPage == KeyboardPage.OPERATORS) return "Operators";
-            if (navigation.keyboardPage == KeyboardPage.FUNCTIONS) return "Functions";
+            if (navigation.screen == CalculatorScreen.EXPRESSIONS) {
+                return "Expressions";
+            }
+            if (navigation.screen == CalculatorScreen.GRAPH) {
+                return "Graph";
+            }
+            if (navigation.keyboardPage == KeyboardPage.NUMBERS) {
+                return "Numbers";
+            }
+            if (navigation.keyboardPage == KeyboardPage.LETTERS) {
+                return "Letters";
+            }
+            if (navigation.keyboardPage == KeyboardPage.OPERATORS) {
+                return "Operators";
+            }
+            if (navigation.keyboardPage == KeyboardPage.FUNCTIONS) {
+                return "Functions";
+            }
             return "Special";
         }
 
         function pageText() {
-            if (navigation.keyboardPage == KeyboardPage.NUMBERS) return "← 1/5 →";
-            if (navigation.keyboardPage == KeyboardPage.LETTERS) return "← 2/5 →";
-            if (navigation.keyboardPage == KeyboardPage.OPERATORS) return "← 3/5 →";
-            if (navigation.keyboardPage == KeyboardPage.FUNCTIONS) return "← 4/5 →";
+            if (navigation.keyboardPage == KeyboardPage.NUMBERS) {
+                return "← 1/5 →";
+            }
+            if (navigation.keyboardPage == KeyboardPage.LETTERS) {
+                return "← 2/5 →";
+            }
+            if (navigation.keyboardPage == KeyboardPage.OPERATORS) {
+                return "← 3/5 →";
+            }
+            if (navigation.keyboardPage == KeyboardPage.FUNCTIONS) {
+                return "← 4/5 →";
+            }
             return "← 5/5 →";
         }
 
@@ -209,7 +229,9 @@ module Garlic {
             var col;
 
             if (navigation.keyboardPage == KeyboardPage.LETTERS) {
-                if (y < 128 || y >= 334 || x < 36 || x >= 294) return null;
+                if (y < 128 || y >= 334 || x < 36 || x >= 294) {
+                    return null;
+                }
                 row = ((y - 128) / 42).toNumber();
                 col = ((x - 36) / 86).toNumber();
                 var index = row * 3 + col;
@@ -218,11 +240,17 @@ module Garlic {
                 return null;
             }
 
-            if (y < 128 || y >= 334 || x < 36 || x >= 294) return null;
+            if (y < 128 || y >= 334 || x < 36 || x >= 294) {
+
+                return null;
+
+            }
             row = ((y - 128) / 42).toNumber();
             col = ((x - 36) / 52).toNumber();
             var index2 = row * 5 + col;
-            if (index2 >= 0 && index2 < keys.size()) return keys[index2];
+            if (index2 >= 0 && index2 < keys.size()) {
+                return keys[index2];
+            }
             return null;
         }
 
