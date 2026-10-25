@@ -19,21 +19,21 @@ module Garlic {
 
         function onLayout(dc) {
             self.dc = dc;
-            loadKeyboardLayout(dc);
+            loadKeyboardLayout();
             refreshText();
         }
 
-        function loadKeyboardLayout(dc) {
+        function loadKeyboardLayout() {
             if (navigation.keyboardPage == PAGE_NUMBERS) {
-                setLayout(Rez.Layouts.NumbersLayout(dc));
+                setLayout(Rez.Layouts.NumbersLayout(self.dc));
             } else if (navigation.keyboardPage == PAGE_LETTERS) {
-                setLayout(Rez.Layouts.LettersLayout(dc));
+                setLayout(Rez.Layouts.LettersLayout(self.dc));
             } else if (navigation.keyboardPage == PAGE_OPERATORS) {
-                setLayout(Rez.Layouts.OperatorsLayout(dc));
+                setLayout(Rez.Layouts.OperatorsLayout(self.dc));
             } else if (navigation.keyboardPage == PAGE_FUNCTIONS) {
-                setLayout(Rez.Layouts.FunctionsLayout(dc));
+                setLayout(Rez.Layouts.FunctionsLayout(self.dc));
             } else {
-                setLayout(Rez.Layouts.SpecialLayout(dc));
+                setLayout(Rez.Layouts.SpecialLayout(self.dc));
             }
         }
 
@@ -279,10 +279,10 @@ module Garlic {
         function handleSwipe(direction) {
             if (direction == WatchUi.SWIPE_LEFT) {
                 navigation.swipeRight();
-                loadKeyboardLayout(dc);
+                loadKeyboardLayout();
             } else if (direction == WatchUi.SWIPE_RIGHT) {
                 navigation.swipeLeft();
-                loadKeyboardLayout(self.dc);
+                loadKeyboardLayout();
             } else if (direction == WatchUi.SWIPE_UP) {
                 navigation.swipeUp();
             } else if (direction == WatchUi.SWIPE_DOWN) {
