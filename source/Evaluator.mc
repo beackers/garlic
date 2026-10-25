@@ -42,6 +42,9 @@ module Garlic {
                 if (node.name == "e") {
                     return Math.E;
                 }
+                if (node.name == "tau") {
+                    return 2.0 * Math.PI;
+                }
                 throw new ParserError("Unknown constant '" + node.name + "'", 0);
             }
 
@@ -112,10 +115,10 @@ module Garlic {
                 return Math.sqrt(x);
             }
             if (name == "ln") {
-                return Math.log(x);
+                return Math.ln(x);
             }
             if (name == "abs") {
-                return Math.abs(x);
+                return x < 0 ? -x : x;
             }
 
             throw new ParserError("Unknown function '" + name + "'", 0);
