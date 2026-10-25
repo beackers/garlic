@@ -1,0 +1,10 @@
+project.manifest = manifest.xml
+
+base.sourcePath = source
+base.resourcePath = resources
+
+base.compilerPath =
+
+base.typeCheck = 3
+
+base.exclude = test
