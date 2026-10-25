@@ -199,7 +199,7 @@ module Garlic {
                 drawGrid(dc, [
                     ["7","8","9","/","^"],
                     ["4","5","6","*","-"],
-                    ["1","2","3","+"," ,"],
+                    ["1","2","3","+",","],
                     ["0",".","x","y","pi"]
                 ]);
             } else {
@@ -255,7 +255,7 @@ module Garlic {
             dc.fillCircle(bubbleX, bubbleY, 42);
             dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
             dc.drawCircle(bubbleX, bubbleY, 42);
-            dc.drawText(bubbleX, bubbleY - 19, Graphics.FONT_XLARGE,
+            dc.drawText(bubbleX, bubbleY - 19, Graphics.FONT_LARGE,
                 touchLabel, Graphics.TEXT_JUSTIFY_CENTER);
             dc.drawText(bubbleX, bubbleY + 17, Graphics.FONT_XTINY,
                 "release",
