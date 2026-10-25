@@ -7,6 +7,7 @@ module Garlic {
         var expression;
         var cursor;
         var expressions;
+        var dc;
 
         function initialize() {
             View.initialize();
@@ -17,6 +18,7 @@ module Garlic {
         }
 
         function onLayout(dc) {
+            self.dc = dc;
             loadKeyboardLayout(dc);
             refreshText();
         }
@@ -170,7 +172,7 @@ module Garlic {
         function handleSwipe(direction) {
             if (direction == WatchUi.SWIPE_LEFT) {
                 navigation.swipeRight();
-                loadKeyboardLayout(self.dc);
+                loadKeyboardLayout(dc);
             } else if (direction == WatchUi.SWIPE_RIGHT) {
                 navigation.swipeLeft();
                 loadKeyboardLayout(self.dc);
