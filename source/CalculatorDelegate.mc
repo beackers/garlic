@@ -1,11 +1,11 @@
 using Toybox.WatchUi as WatchUi;
 
 module Garlic {
-    class CalculatorDelegate extends WatchUi.BehaviorDelegate {
+    class CalculatorDelegate extends WatchUi.InputDelegate {
         var view;
 
         function initialize(view) {
-            BehaviorDelegate.initialize();
+            InputDelegate.initialize();
             self.view = view;
         }
 
@@ -20,20 +20,10 @@ module Garlic {
             return true;
         }
 
-        function onSelect() {
-            view.handleStart();
-            return true;
-        }
-
-        function onBack() {
-            view.handleBack();
-            return true;
-        }
-
         function onKey(evt) {
             var key = evt.getKey();
 
-            if (key == WatchUi.KEY_START || key == WatchUi.KEY_ENTER) {
+            if (key == WatchUi.KEY_ENTER) {
                 view.handleStart();
                 return true;
             }
