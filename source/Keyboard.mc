@@ -6,7 +6,7 @@ module Garlic {
         PAGE_LETTERS,
         PAGE_OPERATORS,
         PAGE_FUNCTIONS,
-        SPECIAL
+        PAGE_SPECIAL
     }
 
     class KeyboardKey {
@@ -27,15 +27,15 @@ module Garlic {
         }
 
         static function next(page) {
-            if (page == SPECIAL) {
-                return NUMBERS;
+            if (page == PAGE_SPECIAL) {
+                return PAGE_NUMBERS;
             }
             return page + 1;
         }
 
         static function previous(page) {
-            if (page == NUMBERS) {
-                return SPECIAL;
+            if (page == PAGE_NUMBERS) {
+                return PAGE_SPECIAL;
             }
             return page - 1;
         }
@@ -43,7 +43,7 @@ module Garlic {
         // These are the semantic key definitions.  Layout XML supplies the
         // touch targets; this table supplies what a key means to the editor.
         static function keys(page) {
-            if (page == NUMBERS) {
+            if (page == PAGE_NUMBERS) {
                 return [
                     new KeyboardKey("7", "7", "insert"),
                     new KeyboardKey("8", "8", "insert"),
@@ -68,7 +68,7 @@ module Garlic {
                 ];
             }
 
-            if (page == LETTERS) {
+            if (page == PAGE_LETTERS) {
                 return [
                     new KeyboardKey("ABC", "", "t9:abc"),
                     new KeyboardKey("DEF", "", "t9:def"),
@@ -88,7 +88,7 @@ module Garlic {
                 ];
             }
 
-            if (page == OPERATORS) {
+            if (page == PAGE_OPERATORS) {
                 return [
                     new KeyboardKey("+", "+", "insert"),
                     new KeyboardKey("-", "-", "insert"),
@@ -113,7 +113,7 @@ module Garlic {
                 ];
             }
 
-            if (page == FUNCTIONS) {
+            if (page == PAGE_FUNCTIONS) {
                 return [
                     new KeyboardKey("sin", "sin(", "function"),
                     new KeyboardKey("cos", "cos(", "function"),
