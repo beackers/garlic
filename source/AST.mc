@@ -162,11 +162,13 @@ module Garlic {
         }
     }
 
-    class ParserError {
+    class ParserError extends Lang.Exception {
         var message;
         var position;
 
         function initialize(message, position) {
+            Exception.initialize();
+            self.mMessage = message;
             self.message = message;
             self.position = position;
         }
