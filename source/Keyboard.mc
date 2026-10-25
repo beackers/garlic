@@ -2,10 +2,10 @@ module Garlic {
     // Horizontal keyboard pages.  The editor stays on the same expression;
     // only the available keys change.
     enum KeyboardPage {
-        NUMBERS,
-        LETTERS,
-        OPERATORS,
-        FUNCTIONS,
+        PAGE_NUMBERS,
+        PAGE_LETTERS,
+        PAGE_OPERATORS,
+        PAGE_FUNCTIONS,
         SPECIAL
     }
 
@@ -27,15 +27,15 @@ module Garlic {
         }
 
         static function next(page) {
-            if (page == KeyboardPage.SPECIAL) {
-                return KeyboardPage.NUMBERS;
+            if (page == SPECIAL) {
+                return NUMBERS;
             }
             return page + 1;
         }
 
         static function previous(page) {
-            if (page == KeyboardPage.NUMBERS) {
-                return KeyboardPage.SPECIAL;
+            if (page == NUMBERS) {
+                return SPECIAL;
             }
             return page - 1;
         }
@@ -43,7 +43,7 @@ module Garlic {
         // These are the semantic key definitions.  Layout XML supplies the
         // touch targets; this table supplies what a key means to the editor.
         static function keys(page) {
-            if (page == KeyboardPage.NUMBERS) {
+            if (page == NUMBERS) {
                 return [
                     new KeyboardKey("7", "7", "insert"),
                     new KeyboardKey("8", "8", "insert"),
@@ -68,7 +68,7 @@ module Garlic {
                 ];
             }
 
-            if (page == KeyboardPage.LETTERS) {
+            if (page == LETTERS) {
                 return [
                     new KeyboardKey("ABC", "", "t9:abc"),
                     new KeyboardKey("DEF", "", "t9:def"),
@@ -88,7 +88,7 @@ module Garlic {
                 ];
             }
 
-            if (page == KeyboardPage.OPERATORS) {
+            if (page == OPERATORS) {
                 return [
                     new KeyboardKey("+", "+", "insert"),
                     new KeyboardKey("-", "-", "insert"),
@@ -113,7 +113,7 @@ module Garlic {
                 ];
             }
 
-            if (page == KeyboardPage.FUNCTIONS) {
+            if (page == FUNCTIONS) {
                 return [
                     new KeyboardKey("sin", "sin(", "function"),
                     new KeyboardKey("cos", "cos(", "function"),
