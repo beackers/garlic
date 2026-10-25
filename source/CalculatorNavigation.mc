@@ -5,8 +5,8 @@ module Garlic {
     //   Start            = graph current workspace
     //   Back             = delete, then navigate back when the cursor is empty
     enum CalculatorScreen {
-        EDITOR,
-        EXPRESSIONS,
+        SCREEN_EDITOR,
+        SCREEN_EXPRESSIONS,
         GRAPH
     }
 
@@ -16,38 +16,38 @@ module Garlic {
         var expressionIndex;
 
         function initialize() {
-            self.screen = CalculatorScreen.EDITOR;
-            self.keyboardPage = KeyboardPage.NUMBERS;
+            self.screen = EDITOR;
+            self.keyboardPage = NUMBERS;
             self.expressionIndex = 0;
         }
 
         function swipeLeft() {
-            if (screen != CalculatorScreen.EDITOR) {
+            if (screen != EDITOR) {
                 return;
             }
             keyboardPage = KeyboardPages.previous(keyboardPage);
         }
 
         function swipeRight() {
-            if (screen != CalculatorScreen.EDITOR) {
+            if (screen != EDITOR) {
                 return;
             }
             keyboardPage = KeyboardPages.next(keyboardPage);
         }
 
         function swipeUp() {
-            if (screen == CalculatorScreen.EDITOR) {
-                screen = CalculatorScreen.EXPRESSIONS;
+            if (screen == EDITOR) {
+                screen = EXPRESSIONS;
             }
         }
 
         function swipeDown() {
-            if (screen == CalculatorScreen.EXPRESSIONS) {
-                screen = CalculatorScreen.EDITOR;
+            if (screen == EXPRESSIONS) {
+                screen = EDITOR;
                 return "new_expression";
             }
 
-            if (screen == CalculatorScreen.EDITOR) {
+            if (screen == EDITOR) {
                 return "new_expression";
             }
 
@@ -55,9 +55,9 @@ module Garlic {
         }
 
         function pressStart() {
-            if (screen == CalculatorScreen.EDITOR ||
-                screen == CalculatorScreen.EXPRESSIONS) {
-                screen = CalculatorScreen.GRAPH;
+            if (screen == EDITOR ||
+                screen == EXPRESSIONS) {
+                screen = GRAPH;
                 return "graph";
             }
 
@@ -65,13 +65,13 @@ module Garlic {
         }
 
         function pressBack(cursorAtStart) {
-            if (screen == CalculatorScreen.GRAPH) {
-                screen = CalculatorScreen.EDITOR;
+            if (screen == GRAPH) {
+                screen = EDITOR;
                 return "back_to_editor";
             }
 
-            if (screen == CalculatorScreen.EXPRESSIONS) {
-                screen = CalculatorScreen.EDITOR;
+            if (screen == EXPRESSIONS) {
+                screen = EDITOR;
                 return "back_to_editor";
             }
 
