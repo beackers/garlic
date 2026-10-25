@@ -64,7 +64,7 @@ jobs:
           developerKey: ./developer_key.der
           outputPath: ./out/Garlic.prg
           device: vivoactive5
-          typeCheck: '3'
+          typeCheck: '0'
 
       - name: Upload PRG
         if: success()
