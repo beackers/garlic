@@ -17,7 +17,7 @@ module Garlic {
 
         function initialize() {
             self.screen = SCREEN_EDITOR;
-            self.keyboardPage = NUMBERS;
+            self.keyboardPage = PAGE_NUMBERS;
             self.expressionIndex = 0;
         }
 
