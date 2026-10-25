@@ -34,7 +34,7 @@ module Garlic {
                 expect(TOKEN_RBRACE, "Expected '}'");
             }
 
-            if (!check(EOF)) {
+            if (!check(TOKEN_EOF)) {
                 throw new ParserError("Unexpected token '" + current().text + "'", current().position);
             }
 
@@ -173,7 +173,7 @@ module Garlic {
 
         function parsePrefix() {
             if (match(TOKEN_PLUS)) {
-                return new UnaryNode(POSITIVE, parseArithmeticExpression(25));
+                return new UnaryNode(UNARY_POSITIVE, parseArithmeticExpression(25));
             }
 
             if (match(TOKEN_MINUS)) {
@@ -342,7 +342,7 @@ module Garlic {
 
         function advance() {
             var token = current();
-            if (!check(EOF)) {
+            if (!check(TOKEN_EOF)) {
                 self.index += 1;
             }
             return token;
