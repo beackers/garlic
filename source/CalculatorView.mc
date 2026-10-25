@@ -24,13 +24,13 @@ module Garlic {
         }
 
         function loadKeyboardLayout(dc) {
-            if (navigation.keyboardPage == KeyboardPage.NUMBERS) {
+            if (navigation.keyboardPage == NUMBERS) {
                 setLayout(Rez.Layouts.NumbersLayout(dc));
-            } else if (navigation.keyboardPage == KeyboardPage.LETTERS) {
+            } else if (navigation.keyboardPage == LETTERS) {
                 setLayout(Rez.Layouts.LettersLayout(dc));
-            } else if (navigation.keyboardPage == KeyboardPage.OPERATORS) {
+            } else if (navigation.keyboardPage == OPERATORS) {
                 setLayout(Rez.Layouts.OperatorsLayout(dc));
-            } else if (navigation.keyboardPage == KeyboardPage.FUNCTIONS) {
+            } else if (navigation.keyboardPage == FUNCTIONS) {
                 setLayout(Rez.Layouts.FunctionsLayout(dc));
             } else {
                 setLayout(Rez.Layouts.SpecialLayout(dc));
@@ -69,7 +69,7 @@ module Garlic {
             navigation.expressionIndex = newIndex;
             expression = "";
             cursor = 0;
-            navigation.screen = CalculatorScreen.EDITOR;
+            navigation.screen = EDITOR;
             refreshText();
         }
 
@@ -107,52 +107,52 @@ module Garlic {
         }
 
         function modeText() {
-            if (navigation.screen == CalculatorScreen.EXPRESSIONS) {
+            if (navigation.screen == EXPRESSIONS) {
                 return "Expressions";
             }
-            if (navigation.screen == CalculatorScreen.GRAPH) {
+            if (navigation.screen == GRAPH) {
                 return "Graph";
             }
-            if (navigation.keyboardPage == KeyboardPage.NUMBERS) {
+            if (navigation.keyboardPage == NUMBERS) {
                 return "Numbers";
             }
-            if (navigation.keyboardPage == KeyboardPage.LETTERS) {
+            if (navigation.keyboardPage == LETTERS) {
                 return "Letters";
             }
-            if (navigation.keyboardPage == KeyboardPage.OPERATORS) {
+            if (navigation.keyboardPage == OPERATORS) {
                 return "Operators";
             }
-            if (navigation.keyboardPage == KeyboardPage.FUNCTIONS) {
+            if (navigation.keyboardPage == FUNCTIONS) {
                 return "Functions";
             }
             return "Special";
         }
 
         function pageText() {
-            if (navigation.keyboardPage == KeyboardPage.NUMBERS) {
+            if (navigation.keyboardPage == NUMBERS) {
                 return "← 1/5 →";
             }
-            if (navigation.keyboardPage == KeyboardPage.LETTERS) {
+            if (navigation.keyboardPage == LETTERS) {
                 return "← 2/5 →";
             }
-            if (navigation.keyboardPage == KeyboardPage.OPERATORS) {
+            if (navigation.keyboardPage == OPERATORS) {
                 return "← 3/5 →";
             }
-            if (navigation.keyboardPage == KeyboardPage.FUNCTIONS) {
+            if (navigation.keyboardPage == FUNCTIONS) {
                 return "← 4/5 →";
             }
             return "← 5/5 →";
         }
 
         function onUpdate(dc) {
-            if (navigation.screen == CalculatorScreen.EDITOR) {
+            if (navigation.screen == EDITOR) {
                 return;
             }
 
             dc.clear();
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
 
-            if (navigation.screen == CalculatorScreen.EXPRESSIONS) {
+            if (navigation.screen == EXPRESSIONS) {
                 dc.drawText(195, 24, Graphics.FONT_LARGE, "Expressions",
                     Graphics.TEXT_JUSTIFY_CENTER);
 
@@ -202,11 +202,11 @@ module Garlic {
         }
 
         function handleTap(x, y) {
-            if (navigation.screen != CalculatorScreen.EDITOR) {
+            if (navigation.screen != EDITOR) {
                 return;
             }
 
-            if (navigation.keyboardPage == KeyboardPage.NUMBERS) {
+            if (navigation.keyboardPage == NUMBERS) {
                 if (y >= 128 && y < 166 && x >= 36 && x < 294) {
                     var col = ((x - 36) / 52).toNumber();
                     if (col == 0) {
@@ -248,7 +248,7 @@ module Garlic {
             var row;
             var col;
 
-            if (navigation.keyboardPage == KeyboardPage.LETTERS) {
+            if (navigation.keyboardPage == LETTERS) {
                 if (y < 128 || y >= 334 || x < 36 || x >= 294) {
                     return null;
                 }
@@ -298,7 +298,7 @@ module Garlic {
         }
 
         function handleBack() {
-            if (navigation.screen == CalculatorScreen.EDITOR) {
+            if (navigation.screen == EDITOR) {
                 if (cursor > 0) {
                     backspace();
                 } else if (navigation.expressionIndex > 0) {
