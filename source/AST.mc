@@ -9,12 +9,12 @@ module Garlic {
         NODE_RELATION,
         NODE_LOGICAL,
         NODE_FUNCTION_DEFINITION,
-        STATEMENT
+        NODE_STATEMENT
     }
 
     enum UnaryOperator {
         UNARY_NEGATE,
-        POSITIVE
+        UNARY_POSITIVE
     }
 
     enum BinaryOperator {
@@ -22,7 +22,7 @@ module Garlic {
         BINARY_SUBTRACT,
         BINARY_MULTIPLY,
         BINARY_DIVIDE,
-        POWER
+        BINARY_POWER
     }
 
     enum RelationOperator {
@@ -30,12 +30,12 @@ module Garlic {
         REL_LESS,
         REL_GREATER,
         REL_LESS_EQUAL,
-        GREATER_EQUAL
+        REL_GREATER_EQUAL
     }
 
     enum LogicalOperator {
         LOGICAL_AND,
-        OR
+        LOGICAL_OR
     }
 
     class Node {
@@ -50,7 +50,7 @@ module Garlic {
         var value;
 
         function initialize(value) {
-            Node.initialize(NUMBER);
+            Node.initialize(NODE_NUMBER);
             self.value = value;
         }
     }
@@ -59,7 +59,7 @@ module Garlic {
         var name;
 
         function initialize(name) {
-            Node.initialize(VARIABLE);
+            Node.initialize(NODE_VARIABLE);
             self.name = name;
         }
     }
@@ -68,7 +68,7 @@ module Garlic {
         var name;
 
         function initialize(name) {
-            Node.initialize(CONSTANT);
+            Node.initialize(NODE_CONSTANT);
             self.name = name;
         }
     }
@@ -78,7 +78,7 @@ module Garlic {
         var operand;
 
         function initialize(operator, operand) {
-            Node.initialize(UNARY);
+            Node.initialize(NODE_UNARY);
             self.operator = operator;
             self.operand = operand;
         }
@@ -90,7 +90,7 @@ module Garlic {
         var right;
 
         function initialize(operator, left, right) {
-            Node.initialize(BINARY);
+            Node.initialize(NODE_BINARY);
             self.operator = operator;
             self.left = left;
             self.right = right;
@@ -102,7 +102,7 @@ module Garlic {
         var arguments;
 
         function initialize(name, arguments) {
-            Node.initialize(FUNCTION_CALL);
+            Node.initialize(NODE_FUNCTION_CALL);
             self.name = name;
             self.arguments = arguments;
         }
@@ -114,7 +114,7 @@ module Garlic {
         var right;
 
         function initialize(operator, left, right) {
-            Node.initialize(RELATION);
+            Node.initialize(NODE_RELATION);
             self.operator = operator;
             self.left = left;
             self.right = right;
@@ -127,7 +127,7 @@ module Garlic {
         var right;
 
         function initialize(operator, left, right) {
-            Node.initialize(LOGICAL);
+            Node.initialize(NODE_LOGICAL);
             self.operator = operator;
             self.left = left;
             self.right = right;
@@ -140,7 +140,7 @@ module Garlic {
         var body;
 
         function initialize(name, parameters, body) {
-            Node.initialize(FUNCTION_DEFINITION);
+            Node.initialize(NODE_FUNCTION_DEFINITION);
             self.name = name;
             self.parameters = parameters;
             self.body = body;
@@ -156,7 +156,7 @@ module Garlic {
         var restrictions;
 
         function initialize(expression, restrictions) {
-            Node.initialize(STATEMENT);
+            Node.initialize(NODE_STATEMENT);
             self.expression = expression;
             self.restrictions = restrictions;
         }
